@@ -1,0 +1,4 @@
+- Outstanding period of growth as SSE
+	- Ownership, delivery, hard and soft skill growth
+	- More effort on estimating for the team, and clearly communicating this
+- 

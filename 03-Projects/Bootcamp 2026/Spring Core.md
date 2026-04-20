@@ -1,0 +1,3 @@
+- Change up the memes
+- Visual code example of newing up everything vs dependency injection using Spring
+- Fix pom code styling on spring boot starter slide

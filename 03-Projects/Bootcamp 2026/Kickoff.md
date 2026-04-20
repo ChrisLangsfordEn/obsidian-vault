@@ -1,0 +1,16 @@
+- Re-jigging the fundamentals section & early java section
+- 2 Feb -> 4 Feb
+- Day 1:
+	- Maven advanced - Dean (some rework)
+	- Spring core & DI - Chris & Dean (also some scope rework)
+- Day 2:
+	- Spring Data - Chris
+	- Spring Rest - Megan
+- Day 3:
+	- Spring Security - Jesse
+- Day 4:
+	- Practical day to work on team projects
+- [ ] Run through content
+- [ ] New theme for slide decks - apply to content
+- [ ] Divide up the presenting load for day 1 with Dean
+- [x] Quick run through content before check in next week ✅ 2026-01-19

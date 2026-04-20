@@ -1,0 +1,12 @@
+{
+  "interfaceFontFamily": "JetBrains Mono,Arial",
+  "textFontFamily": "JetBrains Mono",
+  "monospaceFontFamily": "JetBrains Mono",
+  "baseFontSize": 14,
+  "baseFontSizeAction": false,
+  "cssTheme": "Vanilla AMOLED",
+  "enabledCssSnippets": [
+    "Colored Sidebar Items",
+    "Daily Note Themes"
+  ]
+}
