@@ -203,12 +203,12 @@
               "title": "Source Control"
             }
           }
-        ],
-        "currentTab": 6
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 415.5
+    "width": 415.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -226,9 +226,10 @@
   },
   "active": "7c17945517ecc50b",
   "lastOpenFiles": [
+    "99-Meta/Tasks.md",
+    "01-Daily-Notes/2026/Apr/2026-04-20-Mon.md",
     "New Text Document.txt",
     "Untitled.md",
-    "01-Daily-Notes/2026/Apr/2026-04-20-Mon.md",
     "99-Meta/Templates/Daily Note Template.md",
     "99-Meta/Attachments/This_is_a_fairly_simple_project_that_has.md",
     "99-Meta/Attachments/Pasted image 20260309130423.png",
@@ -236,7 +237,6 @@
     "99-Meta/Attachments/Pasted image 20251124140057.png",
     "99-Meta/Attachments/docs.md",
     "99-Meta/Templates",
-    "99-Meta/Tasks.md",
     "99-Meta/Attachments",
     "99-Meta",
     "07-Archive/Tidy Office.md",
@@ -264,7 +264,6 @@
     "03-Projects/Reviews tool/sources/Technical Lead.md",
     "03-Projects/Reviews tool/sources/Team Lead.md",
     "03-Projects/Reviews tool/sources",
-    "03-Projects/Reviews tool/questions",
     "{1A8646FD-5798-40D8-9FF3-20E7F7FEABB1}.png",
     "Untitled.canvas"
   ]
