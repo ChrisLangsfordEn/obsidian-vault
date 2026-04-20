@@ -192,13 +192,23 @@
               "icon": "lucide-ghost",
               "title": "advanced-tables-toolbar"
             }
+          },
+          {
+            "id": "6809ee633912af77",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
-        ]
+        ],
+        "currentTab": 6
       }
     ],
     "direction": "horizontal",
-    "width": 415.5,
-    "collapsed": true
+    "width": 415.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -216,6 +226,7 @@
   },
   "active": "7c17945517ecc50b",
   "lastOpenFiles": [
+    "New Text Document.txt",
     "Untitled.md",
     "01-Daily-Notes/2026/Apr/2026-04-20-Mon.md",
     "99-Meta/Templates/Daily Note Template.md",
@@ -252,7 +263,6 @@
     "04-People",
     "03-Projects/Reviews tool/sources/Technical Lead.md",
     "03-Projects/Reviews tool/sources/Team Lead.md",
-    "03-Projects/Reviews tool/sources/Solutions Architect.md",
     "03-Projects/Reviews tool/sources",
     "03-Projects/Reviews tool/questions",
     "{1A8646FD-5798-40D8-9FF3-20E7F7FEABB1}.png",
