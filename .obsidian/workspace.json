@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Daily-Notes/2026/Apr/2026-04-20-Mon.md",
+                "file": "03-Projects/Advisor-Azure-AI-POC/POC Sequence Diagram.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-04-20-Mon"
+              "title": "POC Sequence Diagram"
             }
           }
         ]
@@ -226,8 +226,8 @@
   },
   "active": "7c17945517ecc50b",
   "lastOpenFiles": [
-    "99-Meta/Tasks.md",
     "01-Daily-Notes/2026/Apr/2026-04-20-Mon.md",
+    "99-Meta/Tasks.md",
     "New Text Document.txt",
     "Untitled.md",
     "99-Meta/Templates/Daily Note Template.md",
