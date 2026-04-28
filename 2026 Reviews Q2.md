@@ -4,7 +4,13 @@ Chris
 - contributions to SA training course - SQL & Rest sandbox
 - Upskilling
 - - reading and experimenting with AI tooling
+-  - Home Server, local models with Openclaw and N8N experiments
 - - AWS Solution Architect Cert
 - - First Aid level 1
 - Kiro
-- - Advisor recording POC ()
+- - Advisor recording POC 
+- Servicing Poc
+- Driving Staff Savings migration analysis and tech effort tracking
+- Actively working on building up my technical anchor layer in Prime &Terence
+- - Ran an empowerment workshop (good feedback from Edwin on the recording - it went very well)
+- growing my tea
