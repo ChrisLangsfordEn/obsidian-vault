@@ -13,4 +13,8 @@ Chris
 - Driving Staff Savings migration analysis and tech effort tracking
 - Actively working on building up my technical anchor layer in Prime &Terence
 - - Ran an empowerment workshop (good feedback from Edwin on the recording - it went very well)
-- growing my tea
+- growing my team - started with high level goal plan for all developers
+- supporting analysts in growing tech skills
+- Meg - Json (which she has since shared with Kopano)
+- Kopano - SQL & DB structure design
+- EB grads - lots of Q&A
