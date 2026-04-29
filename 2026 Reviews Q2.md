@@ -18,3 +18,4 @@ Chris
 - Meg - Json (which she has since shared with Kopano)
 - Kopano - SQL & DB structure design
 - EB grads - lots of Q&A
+- Presenred at Spring bootcamp
