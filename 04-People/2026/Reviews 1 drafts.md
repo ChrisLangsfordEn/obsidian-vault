@@ -15,9 +15,10 @@ LL training. Learning AI with Kiro.
 Roshilla:
 
 Empowering and handing over to Meg. Working on Empowering and enabling team to run itself. Absorbed feedback - Leaning in to leveraging AI to accelerate the analysis phase.
-Initiatives - SA Forum, ElevateHER, C&&C, BA Forum, 1337.
+Initiatives - involved in many initiatives SA Roundtable + developing the coursework, ElevateHER, Coffee && Code, BA Forum, 1337.
 Brilliant use of tact and planning to make our customer look good, and show our usefulness - visible effort on growing stakeholder relationships and goodwill
 Showing up for lunches and socials - sets a good example
+Puts lots of effort into relationship building at the client - always looks for opportunities to get them involved e.g. bringing Yash in for our hackathon & secret santa last year was a great move! 
 
 Prime:
 - Masters is going well - good marks for coursework
