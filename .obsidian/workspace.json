@@ -199,8 +199,8 @@
             "state": {
               "type": "git-view",
               "state": {},
-              "icon": "git-pull-request",
-              "title": "Source Control"
+              "icon": "lucide-ghost",
+              "title": "git-view"
             }
           }
         ]
@@ -224,7 +224,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "888b01fe4137a446",
+  "active": "ff794f4e8e8870d9",
   "lastOpenFiles": [
     "04-People/2026/Reviews 1 drafts.md",
     "04-People/2026/Growth Plans - Agenda.md",
