@@ -189,8 +189,8 @@
             "state": {
               "type": "advanced-tables-toolbar",
               "state": {},
-              "icon": "lucide-ghost",
-              "title": "advanced-tables-toolbar"
+              "icon": "spreadsheet",
+              "title": "Advanced Tables"
             }
           },
           {
@@ -208,7 +208,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 415.5
+    "width": 415.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -226,8 +227,9 @@
   },
   "active": "888b01fe4137a446",
   "lastOpenFiles": [
-    "01-Daily-Notes/2026/May/2026-05-04-Mon.md",
+    "99-Meta/Tasks.md",
     "01-Daily-Notes/2026/May/2026-05-05-Tue.md",
+    "01-Daily-Notes/2026/May/2026-05-04-Mon.md",
     "04-People/2026/Reviews 1 drafts.md",
     "04-People/2026/Growth Plans - Agenda.md",
     "04-People/2026/Plans.md",
@@ -237,7 +239,6 @@
     "2026 Reviews Q2.md",
     "01-Daily-Notes/2026/Apr/2026-04-23-Thu.md",
     "01-Daily-Notes/2026/Apr/2026-04-21-Tue.md",
-    "99-Meta/Tasks.md",
     "New Text Document.txt",
     "Untitled.md",
     "99-Meta/Templates/Daily Note Template.md",
