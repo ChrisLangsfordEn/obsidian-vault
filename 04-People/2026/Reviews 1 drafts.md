@@ -10,10 +10,13 @@ Dean:
 	- Starting to delegate certain efforts to the analysts
 	- We are in a good rhythm, leaning on each other and covering more bases than before
 		- In my opinion more can be given to Pelo from a leadership perspective (sprint review is a good start, but lets hand over more, e.g. running with bringing the new QA up to speed and mentoring there). Perhaps in the next cycle we can work to empower her to run with more across the team, rather than just focusing closely on 1 project/initiative
-- Trusted advisor to KG & Thabang (key client )
+- Trusted advisor to KG & Thabang (key client stakeholders) & building good rapport with Wiets.
 - Built a strong trust relationships within the team
-- Solid work in improving ceremonies - empowering Pelo to run with the Review, Others to run with retro, driving using Jira more effectively
+- Solid work in improving ceremonies - empowering Pelo to run with the Review, Others to run with retro
+- Driving the team's adoption of Jira for consolidated tracking & reporting of work & capacity
 - Consistently hosting 1:1s despite very busy calendar
+- For a man with a Mediterranean temper, you have an incredible amount of patience when it comes to the client stakeholders. I don't know how you put up with some of their nonsense half the time
+- You are very good with your team, and they really trust you to lead them through the flames, and that you have their 
 
 Roshilla:
 
