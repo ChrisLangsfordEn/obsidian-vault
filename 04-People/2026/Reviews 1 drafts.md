@@ -16,7 +16,7 @@ Dean:
 - Driving the team's adoption of Jira for consolidated tracking & reporting of work & capacity
 - Consistently hosting 1:1s despite very busy calendar
 - For a man with a Mediterranean temper, you have an incredible amount of patience when it comes to the client stakeholders. I don't know how you put up with some of their nonsense half the time
-- You are very good with your team, and they really trust you to lead them through the flames, and that you have their 
+- You are very good with your team, and they really trust you to lead them through the flames, and that you have their best interests at heart
 
 Roshilla:
 
