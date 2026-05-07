@@ -6,7 +6,7 @@ Edwin: Gaslighting, Ulterior motives, changing the plan last minute, brushing ov
 - be careful to ensure that your leads understand your intent to ensure messaging comes across clearly
 	- e.g. Peter's Advisory PoC vs the actual project got messy
 - Be careful to ensure your leads feel heard and that their concerns land, as we saw in those sessions with Dean, the situation could have been diffused a lot earlier if Dean felt like his frustration's were landing and being recognized.
-- Similarly - the discussion about the "list" of people lined up for training. The conversation was not comfortable and it felt very unclear at times whether or not there is a "list" 
+- A similar example - the discussion about the "list" of people lined up for training (Terence selected over Prime for Legitimate Leadership). The conversation became messy, it came across as when you didn't have an answer, you were brushing it off rather than acknowledging the issue and taking ownership of finding out and potentially helping fix the problem with LND/ the People team.
 
 Dean: 
 - Attended Legitimate Leadership training 
