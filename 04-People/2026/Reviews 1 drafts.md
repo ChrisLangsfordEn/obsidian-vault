@@ -1,4 +1,10 @@
-Edwin: Gaslighting, Ulterior motives, changing the plan last minute, brushing over concerns
+Edwin: Gaslighting, Ulterior motives, changing the plan last minute, brushing over concerns, shifting accountability
+
+- attending regular legitimate leadership training
+- coaching on capacity management & prioritization across multiple teams has been effective, and could stand to benefit the broader craft lead community
+- be careful to ensure that your leads understand your intent to ensure messaging comes across clearly
+	- e.g. Peter's Advisory PoC vs the actual project got messy
+- Be carefu
 
 Dean: 
 - Attended Legitimate Leadership training 
