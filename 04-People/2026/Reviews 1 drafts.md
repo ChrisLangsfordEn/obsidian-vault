@@ -1,7 +1,8 @@
 Edwin: Gaslighting, Ulterior motives, changing the plan last minute, brushing over concerns
 
 Dean: 
-LL training. Learning AI with Kiro.
+- Attended Legitimate Leadership training. 
+- Upskilling on AI with Kiro
 - Very reactive
 - Very informal with the team
 - The hero of the team, always needed everywhere
