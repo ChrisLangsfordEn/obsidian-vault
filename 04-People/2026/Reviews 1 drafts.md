@@ -1,14 +1,16 @@
 Edwin: Gaslighting, Ulterior motives, changing the plan last minute, brushing over concerns
 
 Dean: 
-- Attended Legitimate Leadership training. 
+- Attended Legitimate Leadership training 
 - Upskilling on AI with Kiro
-- Very reactive
-- Very informal with the team
+- Often comes across as reactive to situations in the team, although this could be due to being oversubscribed and needed everywhere all at once
 - The hero of the team, always needed everywhere
-	- Pushing the team forward, but also spreading yourself very thin
+	- Pushing the team forward, but also spreading himself very thin
 	- Often manifests as dropping the ball on intentionality in certain events especially with the flux within the team atm
-- Trusted advisor to KG & Thabang
+	- Starting to delegate certain efforts to the analysts
+	- We are in a good rhythm, leaning on each other and covering more bases than before
+		- In my opinion more can be given to Pelo from a leadership perspective (sprint review is a good start, but lets hand over more, e.g. running with bringing the new QA up to speed and mentoring there). Perhaps in the next cycle we can work to empower her to run with more across the team, rather than just focusing closely on 1 project/initiative
+- Trusted advisor to KG & Thabang (key client )
 - Built a strong trust relationships within the team
 - Solid work in improving ceremonies - empowering Pelo to run with the Review, Others to run with retro, driving using Jira more effectively
 - Consistently hosting 1:1s despite very busy calendar
