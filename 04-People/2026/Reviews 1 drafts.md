@@ -4,7 +4,7 @@ Edwin: Gaslighting, Ulterior motives, changing the plan last minute, brushing ov
 - coaching on capacity management & prioritization across multiple teams has been effective, and could stand to benefit the broader craft lead community
 - be careful to ensure that your leads understand your intent to ensure messaging comes across clearly
 	- e.g. Peter's Advisory PoC vs the actual project got messy
-- Be carefu
+- Be careful to ensure your leads feel heard and that their concerns land, as we saw in those sessions with Dean, the situation could have been diffused a lot earlier if Dean felt like his frustration's were landing and being recognized.
 
 Dean: 
 - Attended Legitimate Leadership training 
