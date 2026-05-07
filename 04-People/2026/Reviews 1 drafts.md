@@ -1,6 +1,7 @@
 Edwin: Gaslighting, Ulterior motives, changing the plan last minute, brushing over concerns, shifting accountability
 
-- attending regular legitimate leadership training
+- Attending regular legitimate leadership training
+- Working on AI upskilling to better understand the lay of the land and support his teams (working with it on personal projects)
 - coaching on capacity management & prioritization across multiple teams has been effective, and could stand to benefit the broader craft lead community
 - be careful to ensure that your leads understand your intent to ensure messaging comes across clearly
 	- e.g. Peter's Advisory PoC vs the actual project got messy
