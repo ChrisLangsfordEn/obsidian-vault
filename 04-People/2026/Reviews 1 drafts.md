@@ -3,8 +3,9 @@ Edwin: Gaslighting, Ulterior motives, changing the plan last minute, brushing ov
 - Attending regular legitimate leadership training
 - Working on AI upskilling to better understand the lay of the land and support his teams (working with it on personal projects)
 - coaching on capacity management & prioritization across multiple teams has been effective, and could stand to benefit the broader craft lead community
-- be careful to ensure that your leads understand your intent to ensure messaging comes across clearly
-	- e.g. Peter's Advisory PoC vs the actual project got messy
+- be careful to ensure that your leads understand your intent to ensure messaging comes across clearly, especially when setting up urgent / last minute calls with leads who may not have all the relevant context at the time
+	- e.g. Peter's Advisory PoC vs starting the actual project got messy in terms  of understanding
+	- 
 - Be careful to ensure your leads feel heard and that their concerns land, as we saw in those sessions with Dean, the situation could have been diffused a lot earlier if Dean felt like his frustration's were landing and being recognized.
 - A similar example - the discussion about the "list" of people lined up for training (Terence selected over Prime for Legitimate Leadership). The conversation became messy, it came across as when you didn't have an answer, you were brushing it off rather than acknowledging the issue and taking ownership of finding out and potentially helping fix the problem with LND/ the People team.
 
