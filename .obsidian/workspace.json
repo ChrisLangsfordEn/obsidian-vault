@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Daily-Notes/2026/May/2026-05-11-Mon.md",
+                "file": "01-Daily-Notes/2026/May/2026-05-18-Mon.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-05-11-Mon"
+              "title": "2026-05-18-Mon"
             }
           }
         ]
@@ -204,7 +204,7 @@
             }
           }
         ],
-        "currentTab": 6
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
@@ -227,10 +227,23 @@
   },
   "active": "888b01fe4137a446",
   "lastOpenFiles": [
-    "03-Projects/IPG PUML.md",
-    "03-Projects/Servicing Gitlab PUML Diagram.md",
-    "01-Daily-Notes/2026/May/2026-05-11-Mon.md",
     "01-Daily-Notes/2026/May/2026-05-04-Mon.md",
+    "01-Daily-Notes/2026/May/2026-05-11-Mon.md",
+    "01-Daily-Notes/2026/May/2026-05-18-Mon.md",
+    "01-Daily-Notes/2026/May/2026-05-17-Sun.md",
+    "03-Projects/IPG PUML.md",
+    "03-Projects/SIT to IPG Migration.md",
+    "01-Daily-Notes/2026/May/2026-05-15-Fri.md",
+    "01-Daily-Notes/2026/May/2026-05-14-Thu.md",
+    "03-Projects/Kiro/Generate-Steering.md",
+    "03-Projects/Kiro/generate-steering.md",
+    "01-Daily-Notes/2026/May/2026-05-12-Tue.md",
+    "03-Projects/Advisor-Azure-AI-POC/POC Sequence Diagram.md",
+    "03-Projects/Advisor-Azure-AI-POC/Initial Questions.md",
+    "01-Daily-Notes/2026/May/2026-05-13-Wed.md",
+    "03-Projects/Kiro/Untitled",
+    "99-Meta/Attachments/Pasted image 20260513103025.png",
+    "03-Projects/Servicing Gitlab PUML Diagram.md",
     "01-Daily-Notes/2026/May/2026-05-08-Fri.md",
     "01-Daily-Notes/2026/May/2026-05-07-Thu.md",
     "04-People/2026/Reviews 1 drafts.md",
@@ -239,33 +252,21 @@
     "99-Meta/Tasks.md",
     "04-People/2026/Growth Plans - Agenda.md",
     "04-People/2026/Plans.md",
-    "03-Projects/Advisor-Azure-AI-POC/POC Sequence Diagram.md",
     "01-Daily-Notes/2026/May",
     "01-Daily-Notes/2026/Apr/2026-04-20-Mon.md",
     "2026 Reviews Q2.md",
     "01-Daily-Notes/2026/Apr/2026-04-23-Thu.md",
-    "01-Daily-Notes/2026/Apr/2026-04-21-Tue.md",
     "New Text Document.txt",
-    "Untitled.md",
-    "99-Meta/Templates/Daily Note Template.md",
-    "99-Meta/Attachments/This_is_a_fairly_simple_project_that_has.md",
     "99-Meta/Attachments/Pasted image 20260309130423.png",
     "99-Meta/Attachments/Pasted image 20260415134414.png",
     "99-Meta/Attachments/Pasted image 20251124140057.png",
-    "99-Meta/Attachments/docs.md",
     "99-Meta/Templates",
     "99-Meta/Attachments",
     "99-Meta",
-    "07-Archive/Tidy Office.md",
     "07-Archive",
-    "04-People/2025 Reviews 2/12-Tshego.md",
-    "04-People/2025 Reviews 2/11-Jess.md",
-    "04-People/2025 Reviews 2/10-Priscilla.md",
-    "04-People/2025 Reviews 2/09-Brian.md",
     "04-People/2026/desktop.ini",
     "04-People/2025 Reviews 2",
     "04-People/2026",
-    "04-People",
     "{1A8646FD-5798-40D8-9FF3-20E7F7FEABB1}.png",
     "Untitled.canvas"
   ]
