@@ -101,7 +101,30 @@ but may not fully replace:
 
 ## Crawl -> Walk -> Run
 
-Currently, Developers need 
+At first, the flow of information between Analysis and Development will require human intervention. An example of the evolution of the Kiro-assisted development competency is depicted below:
+
+```
+Generation & Refinement of Steering files
+
+↓
+
+Chat assisted coding during small tasks
+
+↓
+
+Manual knowledge priming & context anchoring
+
+↓
+
+Gradual increase in scope of specs and tasks
+
+↓
+
+Competent workspace creation and allocation of large requirements across repositories
+
+```
+The goal here is to build competency and a habit of reflection
+
 
 ## Experimentation Approach
 
