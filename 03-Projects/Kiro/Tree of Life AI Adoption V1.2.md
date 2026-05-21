@@ -123,7 +123,8 @@ Gradual increase in scope of specs and tasks
 Competent workspace creation and allocation of large requirements across repositories
 
 ```
-The goal here is to build competency and a habit of reflection
+
+The goal here is to build competency and a habit of reflection on practice. As confidence grows, so should competence.
 
 
 ## Experimentation Approach
