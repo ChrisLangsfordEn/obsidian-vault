@@ -57,6 +57,8 @@ The experiment is:
 | 3     | Test whether AI can bridge analysis → implementation    | Constraint definition and architectural governance | Specification transformation     |
 | 4     | Create a continuously improving AI-enabled SDLC         |                                                    |                                  |
 
+
+
 ---
 
 # The Critical Unknown
@@ -96,7 +98,12 @@ but may not fully replace:
 - institutional knowledge
 
 
-# Experimentation Approach
+
+## Crawl -> Walk -> Run
+
+Currently, Developers need 
+
+## Experimentation Approach
 
 1. Metrics are critical for measuring success of an experiment
 2. Experimentation & identifying low-hanging fruit and quick wins will compound over time. (1% growth every day strategy)
