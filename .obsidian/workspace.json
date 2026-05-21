@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "def7579be7407c00",
+        "id": "b14b4ec1bb75ba47",
         "type": "tabs",
         "children": [
           {
-            "id": "888b01fe4137a446",
+            "id": "7066fe3269748366",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03-Projects/Kiro/Tree of Life AI Adoption V1.0.md",
+                "file": "03-Projects/Kiro/Tree of Life AI Adoption V1.1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Tree of Life AI Adoption V1.0"
+              "title": "Tree of Life AI Adoption V1.1"
             }
           }
         ]
@@ -225,10 +225,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "888b01fe4137a446",
+  "active": "7066fe3269748366",
   "lastOpenFiles": [
+    "Tree of Life AI Adoption V1.0.pdf",
+    "03-Projects/Kiro/Tree of Life AI Adoption V1.1.md",
     "01-Daily-Notes/2026/May/2026-05-20-Wed.md",
-    "03-Projects/Kiro/Tree of Life AI Adoption V1.0.md",
     "01-Daily-Notes/2026/May/2026-05-18-Mon.md",
     "01-Daily-Notes/2026/May/2026-05-04-Mon.md",
     "01-Daily-Notes/2026/May/2026-05-11-Mon.md",
@@ -255,7 +256,6 @@
     "04-People/2026/Growth Plans - Agenda.md",
     "04-People/2026/Plans.md",
     "01-Daily-Notes/2026/May",
-    "01-Daily-Notes/2026/Apr/2026-04-20-Mon.md",
     "New Text Document.txt",
     "99-Meta/Attachments/Pasted image 20260309130423.png",
     "99-Meta/Attachments/Pasted image 20260415134414.png",
@@ -266,7 +266,6 @@
     "07-Archive",
     "04-People/2026/desktop.ini",
     "04-People/2025 Reviews 2",
-    "04-People/2026",
     "{1A8646FD-5798-40D8-9FF3-20E7F7FEABB1}.png",
     "Untitled.canvas"
   ]

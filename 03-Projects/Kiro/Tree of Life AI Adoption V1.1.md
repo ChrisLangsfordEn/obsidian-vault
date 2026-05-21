@@ -1,4 +1,5 @@
 
+
 # The AI Delivery Maturity Curve
 
 ```
@@ -93,6 +94,19 @@ but may not fully replace:
 - system history  
 - contextual tradeoffs  
 - institutional knowledge
+
+
+# Experimentation Approach
+
+1. Metrics are critical for measuring success of an experiment
+2. Experimentation and identifying low-hanging fruit and quick wins will compound over time.
+
+
+**Encourage Experimentation** - Give our teams time to think and experiment with approaches.
+
+**Celebration grid retro** - Track experiments in Sprint Retros
+
+**Reflection** - Encourage team member reflection (e.g. daily Kiro Journal)
 
 
 ---
