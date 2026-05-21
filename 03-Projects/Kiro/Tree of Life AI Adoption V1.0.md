@@ -56,6 +56,7 @@ The experiment is:
 | 3     | Test whether AI can bridge analysis → implementation    | Constraint definition and architectural governance | Specification transformation     |
 | 4     | Create a continuously improving AI-enabled SDLC         |                                                    |                                  |
 
+---
 
 # The Critical Unknown
 
@@ -94,4 +95,81 @@ but may not fully replace:
 - institutional knowledge
 
 
-#Additional Thoughts
+---
+
+
+# Additional Thoughts
+
+## Developer Role Shift
+
+### Traditional Development
+
+```
+Planning      ████████████ 30%
+Coding        ████████████████████ 50%
+Review        ████████ 20%
+```
+
+### AI-Assisted Development
+
+```
+Planning      ██████████████████ 45%
+Coding        ████ 10%
+Review        ██████████████████ 45%
+```
+
+And then the key insight underneath:
+
+```
+AI reduces typing effort.It does NOT reduce accountability.Engineering value shifts from:"writing code"toward:- defining intent- constraining solutions- validating correctness- reviewing generated output- architectural decision-making
+```
+
+That’s an extremely important cultural message for senior engineers.
+
+
+## Value Stream Bottleneck
+
+# Future Risk State
+(if development is truly the bottleneck)
+```
+BA → DEV → QA → RELEASE  
+      ↓
+DEV accelerated
+
+
+BA becomes starved  
+OR  
+QA becomes overloaded  
+OR  
+Both
+```
+If Development is not the bottleneck 
+- Other queues & droughts may appear
+
+Based on what early adopters are seeing:
+- AI code making its way to production is low
+- Code review is a new bottleneck
+- Releases will become larger and riskier with even more administration, training, support and PIT requirements
+
+
+## Opportunities for QA
+
+### Traditional QA
+
+```
+Manual test case derivationManual regression identificationHuman-heavy validationLate-stage involvement
+```
+
+↓
+
+### AI-Augmented QA
+
+```
+Requirements-to-test synthesisTraceability validationRegression impact analysisRisk hotspot identificationTest data generationSpecification consistency checking
+```
+
+And then:
+
+```
+The future QA role becomes:- validating business intent- evaluating edge cases- assessing risk- governing confidencerather than only executing tests
+```
