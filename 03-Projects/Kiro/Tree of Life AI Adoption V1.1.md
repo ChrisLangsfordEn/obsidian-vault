@@ -99,14 +99,16 @@ but may not fully replace:
 # Experimentation Approach
 
 1. Metrics are critical for measuring success of an experiment
-2. Experimentation and identifying low-hanging fruit and quick wins will compound over time.
+2. Experimentation & identifying low-hanging fruit and quick wins will compound over time. (1% growth every day strategy)
 
 
 **Encourage Experimentation** - Give our teams time to think and experiment with approaches.
 
 **Celebration grid retro** - Track experiments in Sprint Retros
 
-**Reflection** - Encourage team member reflection (e.g. daily Kiro Journal)
+**Reflection** - Encourage reflection (e.g. Daily Kiro Journal) across the team
+
+![[Pasted image 20260521074044.png]]
 
 
 ---
