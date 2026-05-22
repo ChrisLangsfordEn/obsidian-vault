@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Daily-Notes/2026/May/2026-05-21-Thu.md",
+                "file": "01-Daily-Notes/2026/May/2026-05-22-Fri.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-05-21-Thu"
+              "title": "2026-05-22-Fri"
             }
           }
         ]
@@ -96,8 +96,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 276.5,
-    "collapsed": true
+    "width": 276.5
   },
   "right": {
     "id": "4f94c767381c7b53",
@@ -228,9 +227,10 @@
   },
   "active": "7066fe3269748366",
   "lastOpenFiles": [
+    "01-Daily-Notes/2026/May/2026-05-21-Thu.md",
+    "01-Daily-Notes/2026/May/2026-05-22-Fri.md",
     "03-Projects/Kiro/Tree of Life AI Adoption V1.2.md",
     "Tree of Life AI Adoption V1.2.pdf",
-    "01-Daily-Notes/2026/May/2026-05-21-Thu.md",
     "Tree of Life AI Adoption V1.1.pdf",
     "99-Meta/Attachments/Pasted image 20260521074044.png",
     "Tree of Life AI Adoption V1.0.pdf",
