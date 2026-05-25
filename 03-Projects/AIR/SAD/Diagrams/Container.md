@@ -13,8 +13,6 @@ title AIR Container Diagram
 Person(advisor, "Financial Advisor", "Primary user of the AIR platform")
 
 ' === Tier 2: Presentation Layer ===
-System_Ext(cloudfront, "AWS CloudFront", "CDN for Angular SPA")
-System_Ext(s3, "AWS S3", "Static hosting for Angular assets")
 
 System_Boundary(airSystem, "AIR Platform") {
 
@@ -27,6 +25,7 @@ System_Boundary(airSystem, "AIR Platform") {
     ' === Tier 4: AI Agent Services ===
     Container(bob, "Bob Agent", "Spring AI", "Advisor's personal assistant — cross-context agent providing queue reasoning, proposal drafting, engagement prep, notebook interpretation, and general advisory support")
     Container(vera, "Vera Agent", "Spring AI + Rules Engine", "Compliance agent — validates proposals (sync), enforces suitability checks, flags risks")
+    Container(gary, "Gary Agent", "Spring AI", "")
 
     ' === Tier 5: Data Layer (rightmost) ===
     Container(eventBus, "Internal Event Bus", "Spring Application Events", "In-process event backbone for cross-module communication, agent orchestration, and workbench projection updates")
@@ -38,9 +37,7 @@ System_Ext(entraId, "Microsoft Entra ID", "Identity & access management")
 System_Ext(pep, "AdviceConsumer (via PEP)", "Enterprise API Gateway — lead sync & deal execution")
 
 ' === Relationships: Tier 1 -> Tier 2 ===
-Rel(advisor, cloudfront, "Accesses application", "HTTPS")
-Rel(cloudfront, s3, "Serves static assets", "HTTPS")
-Rel(cloudfront, api, "Proxies API calls", "/api/*")
+Rel(advisor, spa, "Accesses application", "HTTPS")
 
 ' === Relationships: Tier 2 -> Tier 3/4 ===
 Rel(spa, api, "Calls REST endpoints", "HTTPS/JSON + Bearer JWT")
