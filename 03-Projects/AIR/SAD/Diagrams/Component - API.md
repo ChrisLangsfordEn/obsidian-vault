@@ -9,69 +9,64 @@ skinparam linetype polyline
 
 title AIR API — Modular Monolith Component Diagram
 
-' === Cross-cutting services ===
-        Component_Ext(featureToggles, "Feature Toggle Service", "Spring Boot + Config", "Controls feature flags to decouple deployments from business releases")
-
-' === Event Bus ===
-    Component_Ext(eventBus, "Event Bus", "Spring Application Events", "In-process event backbone for cross-module communication and agent orchestration")
+' === Cross-cutting (top, outside boundary) ===
+Component_Ext(featureToggles, "Feature Toggle Service", "Spring Boot + Config", "Controls feature flags")
+Component_Ext(eventBus, "Event Bus", "Spring Application Events", "In-process event backbone for cross-module communication and agent orchestration")
 
 Container_Boundary(api, "AIR API (Modular Monolith)") {
 
     ' === Core Domain Modules ===
-    Component(workbenchModule, "Advisor Workbench Module", "Spring Boot Module", "Priority queue presentation, performance scorecard, aggregated read projection for Bob's context window, advisor day schedule")
-    Component(opportunityModule, "Opportunity & Portfolio Module", "Spring Boot Module", "Manages leads, opportunities, scoring, pipeline classification, feedback, and the Next-Best-Action Prioritisation Service")
-    Component(clientModule, "Client Context Module (Customer 360)", "Spring Boot Module", "Read-only consolidated view of client profiles, financial position, money flows, risk profiles, FNA inputs")
-    Component(lifecycleModule, "Advice Case Lifecycle Module", "Spring Boot Module", "Orchestrates advice case stages, owns the Opportunity Setup wizard, manages stage transitions and outcome anchors")
-    Component(proposalModule, "Advice Construction Module (Proposal Builder)", "Spring Boot Module", "Builds and versions proposals and Record of Advice — sections, calculations, diffs, template progression")
-    Component(rulesModule, "Compliance Rules Module", "Spring Boot Module", "Synchronous validation — suitability checks, mandate validation, risk profile mismatch, FICA gaps, disclosure requirements")
+    Boundary(core, "Core Domain") {
+        Component(workbenchModule,   "Advisor Workbench",         "Spring Boot Module", "Priority queue, scorecard, aggregated read projection")
+        Component(opportunityModule, "Opportunity & Portfolio",   "Spring Boot Module", "Leads, scoring, pipeline, Next-Best-Action Prioritisation")
+        Component(clientModule,      "Client Context (Cust. 360)","Spring Boot Module", "Read-only consolidated client profile, FNA inputs")
+        Component(lifecycleModule,   "Advice Case Lifecycle",     "Spring Boot Module", "Case stages, Setup wizard, transitions, outcome anchors")
+        Component(proposalModule,    "Advice Construction",       "Spring Boot Module", "Proposals, RoA, versioning, diffs, template progression")
+        Component(rulesModule,       "Compliance Rules",          "Spring Boot Module", "Suitability checks, mandate validation, FICA gaps")
+    }
 
     ' === Supporting Domain Modules ===
-    Component(engagementModule, "Client Engagement Module", "Spring Boot Module", "Captures structured client interactions — recordings, transcripts, summaries, objectives, consent")
-    Component(documentModule, "Document & Acceptance Module", "Spring Boot Module", "Generates final artefacts (PDFs, RoA), tracks client acceptance, manages compliance artefact versioning")
-    Component(productivityModule, "Advisor Productivity Module", "Spring Boot Module", "Notebook, voice dictation, photo attachments, saved notes library, Bob interpretation requests")
-   
+    Boundary(supporting, "Supporting Domain") {
+        Component(engagementModule,  "Client Engagement",         "Spring Boot Module", "Structured client interactions — recordings, transcripts, consent")
+        Component(documentModule,    "Document & Acceptance",     "Spring Boot Module", "PDF/RoA generation, client acceptance, artefact versioning")
+        Component(productivityModule,"Advisor Productivity",      "Spring Boot Module", "Notebook, voice dictation, photo attachments, Bob requests")
+    }
 }
 
 ' === External Systems ===
-    ContainerDb(db, "PostgreSQL", "AWS RDS", "Each module owns its schema/tables via Liquibase")
-    System_Ext(pep, "AdviceConsumer (via PEP)", "Enterprise API Gateway — lead sync & deal execution")
-    System_Ext(clientSystems, "Client Data Sources", "Customer 360 data")
+ContainerDb(db,          "PostgreSQL",              "AWS RDS",  "Each module owns its schema via Liquibase")
+System_Ext(pep,          "AdviceConsumer (via PEP)", "Enterprise API Gateway — lead sync & deal execution")
+System_Ext(clientSystems,"Client Data Sources",     "Customer 360 data")
 
-' === Relationships: Modules -> Event Bus ===
-Rel(opportunityModule, eventBus, "Publishes LeadSignalDetected, LeadPromotedToQueue, LeadFeedbackRecorded, OpportunityReadyForEngagement, QueueRanked")
-Rel(lifecycleModule, eventBus, "Publishes AdviceCaseCreated, StageAdvanced, CaseCompleted")
-Rel(proposalModule, eventBus, "Publishes ProposalSectionEdited, ProposalCompleted")
-Rel(engagementModule, eventBus, "Publishes EngagementCaptured, EngagementSummaryAvailable")
-Rel(documentModule, eventBus, "Publishes ClientAccepted, DocumentGenerated")
-Rel(rulesModule, eventBus, "Publishes ValidationCompleted")
+' ── Event Publishing (Modules → Bus) ──────────────────────────────────────
+Rel_Up(opportunityModule, eventBus, "LeadSignalDetected, LeadPromotedToQueue,\nOpportunityReadyForEngagement, QueueRanked")
+Rel_Up(lifecycleModule,   eventBus, "AdviceCaseCreated, StageAdvanced, CaseCompleted")
+Rel_Up(proposalModule,    eventBus, "ProposalSectionEdited, ProposalCompleted")
+Rel_Up(engagementModule,  eventBus, "EngagementCaptured, EngagementSummaryAvailable")
+Rel_Up(documentModule,    eventBus, "ClientAccepted, DocumentGenerated")
+Rel_Up(rulesModule,       eventBus, "ValidationCompleted")
 
-' === Relationships: Event Bus -> Consuming Modules ===
-Rel(eventBus, workbenchModule, "Subscribes to queue/lifecycle/ranking events for projection updates")
-Rel(eventBus, lifecycleModule, "Subscribes to OpportunityReadyForEngagement, ValidationCompleted, ClientAccepted")
-Rel(eventBus, rulesModule, "Subscribes to ProposalCompleted (sync validation gate)")
+' ── Event Consumption (Bus → Modules) ─────────────────────────────────────
+Rel_Down(eventBus, workbenchModule, "Queue/lifecycle/ranking → projection updates")
+Rel_Down(eventBus, lifecycleModule, "OpportunityReadyForEngagement,\nValidationCompleted, ClientAccepted")
+Rel_Down(eventBus, rulesModule,     "ProposalCompleted (sync validation gate)")
 
-' === Relationships: Module -> Module (direct reads) ===
-Rel(workbenchModule, opportunityModule, "Reads ranked queue from Prioritisation Service")
-Rel(workbenchModule, lifecycleModule, "Reads active engagements and stage positions")
-Rel(workbenchModule, clientModule, "Reads client metadata for display")
-Rel(lifecycleModule, clientModule, "Reads FNA data for Setup wizard step 4")
-Rel(proposalModule, clientModule, "Reads client financials for proposals")
-Rel(opportunityModule, clientModule, "Receives behavioural signals")
+' ── Direct Module Reads ────────────────────────────────────────────────────
+Rel(workbenchModule,  opportunityModule, "Reads ranked queue")
+Rel(workbenchModule,  lifecycleModule,   "Reads active cases & stage positions")
+Rel(workbenchModule,  clientModule,      "Reads client metadata")
+Rel(lifecycleModule,  clientModule,      "Reads FNA data (Setup wizard step 4)")
+Rel(proposalModule,   clientModule,      "Reads client financials")
+Rel(opportunityModule,clientModule,      "Receives behavioural signals")
 
-' === Relationships: Modules -> External Services ===
-Rel(opportunityModule, pep, "Syncs leads", "REST/JSON via PEP")
-Rel(lifecycleModule, pep, "Executes fulfilment steps", "REST/JSON via PEP")
-Rel(clientModule, clientSystems, "Retrieves client data", "REST/JSON")
+' ── External Integrations ──────────────────────────────────────────────────
+Rel(opportunityModule, pep,          "Syncs leads",             "REST/JSON via PEP")
+Rel(lifecycleModule,   pep,          "Executes fulfilment steps","REST/JSON via PEP")
+Rel(clientModule,      clientSystems,"Retrieves client data",   "REST/JSON")
 
-' === Relationships: Modules -> Database ===
-Rel(workbenchModule, db, "Reads/writes", "JDBC")
-Rel(opportunityModule, db, "Reads/writes", "JDBC")
-Rel(lifecycleModule, db, "Reads/writes", "JDBC")
-Rel(proposalModule, db, "Reads/writes", "JDBC")
-Rel(rulesModule, db, "Reads/writes", "JDBC")
-Rel(engagementModule, db, "Reads/writes", "JDBC")
-Rel(documentModule, db, "Reads/writes", "JDBC")
-Rel(productivityModule, db, "Reads/writes", "JDBC")
+' ── Database (one arrow per group, not per module) ────────────────────────
+Rel_Down(core,      db, "All core modules read/write", "JDBC")
+Rel_Down(supporting,db, "All supporting modules read/write", "JDBC")
 
 @enduml
 ```
