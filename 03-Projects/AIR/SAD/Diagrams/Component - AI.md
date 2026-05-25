@@ -19,12 +19,12 @@ Container_Boundary(modules, "Domain Modules") {
     Component(lifecycleModule, "Advice Lifecycle Module", "Spring Boot Module", "Case lifecycle, setup wizard, stage transitions")
     Component(engagementModule, "Engagement Module", "Spring Boot Module", "Client interaction capture")
     Component(clientModule, "Client Context Module", "Spring Boot Module", "Customer 360 read model")
-    Component(rulesModule, "Compliance Rules Module", "Spring Boot Module", "Deterministic rule enforcement")
+    Component(rulesModule, "Compliance Rules Module", "Rules Engine Module", "Deterministic rule enforcement")
     Component(documentModule, "Document & Acceptance Module", "Spring Boot Module", "Document generation, client acceptance")
     Component(productivityModule, "Advisor Productivity Module", "Spring Boot Module", "Notebook, dictation, notes library")
 }
 
-Component_Ext(eventBus, "Event Bus", "Spring Application Events", "Routes domain events to agent subscriptions")
+Component_Ext(eventBus, "Event Bus", "Queue", "Routes domain events to agent subscriptions")
 
 ' === Agent Layer ===
 Container_Boundary(agents, "AI Agent Layer") {

@@ -32,7 +32,7 @@ System_Boundary(airSystem, "AIR Platform") {
     }
 
     ' === Event Bus ===
-    Container(eventBus, "Event Bus", "Spring Application Events", "In-process backbone — cross-module events and agent orchestration")
+    Container(eventBus, "Event Bus", "Queue", "In-process backbone — cross-module events and agent orchestration")
 
     ' === Data ===
     ContainerDb(db, "PostgreSQL", "AWS RDS PostgreSQL 15+", "Opportunities, advice cases, proposals, compliance artefacts, engagement records, notebook, audit trail")

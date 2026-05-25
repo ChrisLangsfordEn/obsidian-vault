@@ -10,7 +10,7 @@ title AIR API — Modular Monolith Component Diagram
 
 ' === Cross-cutting (top, outside boundary) ===
 Component_Ext(featureToggles, "Feature Toggle Service", "Spring Boot + Config", "Controls feature flags")
-Component_Ext(eventBus, "Event Bus", "Spring Application Events", "In-process event backbone for cross-module communication and agent orchestration")
+Component_Ext(eventBus, "Event Bus", "Queue", "In-process event backbone for cross-module communication and agent orchestration")
 
 Container_Boundary(api, "AIR API (Modular Monolith)") {
 
