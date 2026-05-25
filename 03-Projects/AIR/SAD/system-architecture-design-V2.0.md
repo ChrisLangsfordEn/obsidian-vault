@@ -72,17 +72,21 @@ System_Boundary(airSystem, "AIR Platform") {
 
     ' === Tier 4: AI Agent Services ===
     Container(bob, "Bob Agent", "Spring AI", "Advisor's personal assistant — cross-context agent providing queue reasoning, proposal drafting, engagement prep, notebook interpretation, and general advisory support")
-    Container(vera, "Vera Agent", "Spring AI + Rules Engine", "Compliance agent — validates proposals (sync), enforces suitability checks, flags risks")
+    Container(vera, "Vera Agent", "Spring AI + Rules Engine", "Compliance agent — validates proposals (sync), enforces suitability checks, flags risks, explains compliance failures via RAG")
     Container(gary, "Gary Agent", "Spring AI", "Advisor's performance coach")
+    Container(tokeniser, "PII Tokenisation Gateway", "Spring Service", "Intercepts agent prompts — tokenises PII before LLM calls, de-tokenises responses before returning to domain layer")
+    Container(llmGateway, "LLM Gateway", "Spring AI", "Unified interface to external LLM providers — manages model routing, rate limiting, and token budgets")
 
     ' === Tier 5: Data Layer (rightmost) ===
     Container(eventBus, "Event Bus", "Queue", "In-process event backbone for cross-module communication, agent orchestration, and workbench projection updates")
     ContainerDb(db, "PostgreSQL Database", "AWS RDS PostgreSQL 15+", "Stores leads, advice cases, proposals, compliance artefacts, engagement records, notebook, audit trail")
+    ContainerDb(vectorDb, "Vector Store", "PostgreSQL + pgvector", "Stores compliance knowledge embeddings — regulatory rules, precedent explanations, suitability guidance for agent RAG")
 }
 
 ' === Tier 5: External Data/Services (rightmost) ===
 System_Ext(entraId, "Microsoft Entra ID", "Identity & access management")
 System_Ext(pep, "AdviceConsumer (via PEP)", "Enterprise API Gateway — lead sync & deal execution")
+System_Ext(llmProvider, "LLM Provider", "External large language model service (e.g. Azure OpenAI, AWS Bedrock)")
 
 ' === Relationships: Tier 1 -> Tier 2 ===
 Rel(advisor, spa, "Accesses application", "HTTPS")
@@ -106,6 +110,17 @@ Rel(eventBus, gary, "Routes events", "TBC")
 Rel(bob, api, "Produces suggestions/drafts, reads from all context modules", "In-process")
 Rel(vera, api, "Returns validations/violations", "In-process")
 Rel(gary, api, "Produces performance improvement suggestions", "In-process")
+
+' === Relationships: Agents -> Tokenisation & LLM ===
+Rel(bob, tokeniser, "Sends prompts with domain context", "In-process")
+Rel(vera, tokeniser, "Sends compliance queries", "In-process")
+Rel(gary, tokeniser, "Sends coaching queries", "In-process")
+Rel(tokeniser, llmGateway, "Forwards PII-safe prompts", "In-process")
+Rel(llmGateway, llmProvider, "Calls LLM inference", "HTTPS/REST")
+
+' === Relationships: Agents -> Vector Store ===
+Rel(vera, vectorDb, "Retrieves compliance knowledge embeddings for RAG", "JDBC/SQL")
+Rel(bob, vectorDb, "Retrieves contextual knowledge for RAG", "JDBC/SQL")
 
 @enduml
 ```
@@ -227,11 +242,22 @@ Container_Boundary(agents, "AI Agent Layer") {
 
     Component(orchestrator, "Advisory Services Orchestrator", "Spring Service", "Tracks lifecycle state, triggers validations, ensures required steps are completed, enforces policy gates")
     Component(bob, "Bob — Advisor's Personal Assistant", "Spring AI Agent", "Application-layer agent: drafts proposals, reasons about queue, preps engagements, interprets notes, provides general advisory support. Cross-context read access.")
-    Component(vera, "Vera — Compliance Agent", "Spring AI Agent + Rules Engine", "Domain service: validates proposals (sync), enforces suitability, flags risks. Deterministic, guardrail-focused.")
+    Component(vera, "Vera — Compliance Agent", "Spring AI Agent + Rules Engine", "Domain service: validates proposals (sync), enforces suitability, flags risks. Explains compliance failures via RAG against regulatory knowledge base.")
     
 }
 
+' === Agent Infrastructure ===
+Container_Boundary(agentInfra, "Agent Infrastructure") {
+
+    Component(tokeniser, "PII Tokenisation Gateway", "Spring Service", "Intercepts all agent prompts — replaces PII (names, ID numbers, account numbers, addresses) with reversible tokens before LLM submission. De-tokenises responses before returning to domain layer. Maintains token mapping per session.")
+    Component(llmGateway, "LLM Gateway", "Spring AI", "Unified interface to external LLM providers — manages model routing, rate limiting, token budgets, retry/fallback, and prompt audit logging")
+    Component(ragPipeline, "RAG Pipeline", "Spring AI + pgvector", "Retrieval-augmented generation pipeline — embeds queries, performs similarity search against vector store, assembles augmented prompts with retrieved context")
+
+}
+
 Component_Ext(eventBus, "Event Bus", "Queue", "Routes domain events to agent subscriptions")
+ContainerDb_Ext(vectorDb, "Vector Store", "PostgreSQL + pgvector", "Compliance knowledge embeddings — regulatory rules, precedent explanations, suitability guidance, product rules")
+System_Ext(llmProvider, "LLM Provider", "External LLM service (e.g. Azure OpenAI, AWS Bedrock)")
 
 ' === Relationships: Domain Modules -> Event Bus ===
 Rel(leadOpportunityModule, eventBus, "LeadSignalDetected, LeadPromotedToQueue, QueueRanked, OpportunityReadyForEngagement")
@@ -264,6 +290,17 @@ Rel(bob, leadOpportunityModule, "Surfaces new leads", "Write")
 
 ' === Relationships: Vera -> Domain Modules ===
 Rel(vera, complianceModule, "Executes rule validations")
+
+' === Relationships: Agents -> Agent Infrastructure ===
+Rel(bob, tokeniser, "Sends prompts with domain context")
+Rel(vera, tokeniser, "Sends compliance queries and failure explanations")
+Rel(tokeniser, llmGateway, "Forwards PII-safe prompts")
+Rel(llmGateway, llmProvider, "Calls LLM inference", "HTTPS/REST")
+
+' === Relationships: Agents -> RAG Pipeline ===
+Rel(vera, ragPipeline, "Queries regulatory knowledge for compliance failure explanations")
+Rel(bob, ragPipeline, "Queries contextual knowledge for advisory support")
+Rel(ragPipeline, vectorDb, "Similarity search on embeddings", "JDBC/pgvector")
 
 @enduml
 ```
@@ -546,9 +583,9 @@ esa ..down..> bob : update\ncontext
 | Level | Diagram | Purpose |
 |-------|---------|---------|
 | C4 Level 1 | System Context | Shows AIR in its ecosystem with users and external systems |
-| C4 Level 2 | Container | Shows deployable units — SPA, API monolith, DB, Bob & Vera agents, event bus |
+| C4 Level 2 | Container | Shows deployable units — SPA, API monolith, DB, vector store, Bob & Vera agents, PII tokenisation, LLM gateway, event bus |
 | C4 Level 3 | Component (API) | Shows internal bounded context modules within the monolith (9 active contexts) |
-| C4 Level 3 | Component (Agents) | Shows Bob's cross-context read/write access and Vera's sync validation role |
+| C4 Level 3 | Component (Agents) | Shows Bob's cross-context read/write access, Vera's sync validation role, PII tokenisation gateway, RAG pipeline, and LLM integration |
 | C4 Level 4 | Deployment | Shows AWS infrastructure topology — EKS, RDS, CloudFront, S3 (uses AWS Architecture Icons) |
 | Supplementary | CI/CD Pipeline | Shows trunk-based development and daily deployment flow |
 | Supplementary | Event Flow | Shows event-driven orchestration with domain event catalogue |
@@ -561,8 +598,11 @@ esa ..down..> bob : update\ncontext
 - **9 Active Bounded Contexts**: Customer Workbench, Lead & Opportunity Management, Customer Relationship & Insights, Consumer Advisory Services, Advisory Proposal Construction, Regulatory & Suitability Compliance, Session Dialogue & Contact, Document Services & Customer Consent, Advisor Productivity
 - **Naming Convention**: All contexts use canonical service domain names where strong alignment to industry standards exists; bank-specific extensions are clearly documented
 - **Bob as Application-Layer Agent**: Cross-context personal assistant with read access to all modules and write access to Advisory Proposal Construction, Customer Workbench, and Lead & Opportunity Management
-- **Vera as Domain Service**: Synchronous compliance validation within the Regulatory & Suitability Compliance module; async monitoring deferred
+- **Vera as Domain Service**: Synchronous compliance validation within the Regulatory & Suitability Compliance module; uses RAG against a vector store (pgvector) to explain why compliance checks fail; async monitoring deferred
 - **Gary Deferred**: Professional coach agent deferred to future phase (Servicing Activity Analysis context)
+- **PII Tokenisation Gateway**: All agent prompts pass through a tokenisation layer that replaces personally identifiable information (names, ID numbers, account numbers, addresses) with reversible session-scoped tokens before submission to LLMs — responses are de-tokenised before returning to the domain layer
+- **Vector Store (pgvector)**: PostgreSQL with pgvector extension stores compliance knowledge embeddings — regulatory rules, precedent explanations, suitability guidance, and product rules — enabling RAG-based explanations for Vera and contextual support for Bob
+- **LLM Gateway**: Unified interface to external LLM providers managing model routing, rate limiting, token budgets, retry/fallback strategies, and prompt audit logging
 - **Prioritisation Service in Lead & Opportunity Management**: The Next-Best-Action ranking algorithm lives as a domain service within the Lead & Opportunity module, publishing ranked results to the Customer Workbench projection
 - **Opportunity Setup Wizard in Consumer Advisory Services**: Triggered by `OpportunityReadyForEngagement` event from Lead & Opportunity Management, owned by Consumer Advisory Services
 - **Event-Driven Backbone**: 13 domain events orchestrate cross-module communication and agent behaviour
@@ -582,7 +622,7 @@ esa ..down..> bob : update\ncontext
 | AIR | Advice & Intelligence Relationship — the platform being designed |
 | BIAN | Banking Industry Architecture Network — industry-standard reference model for banking service domains |
 | Bob | AI personal assistant agent — advisor's cross-context co-pilot (proposal drafting, queue reasoning, engagement prep, notebook interpretation) |
-| Vera | AI compliance agent — synchronous rule validation and suitability enforcement |
+| Vera | AI compliance agent — synchronous rule validation, suitability enforcement, and RAG-powered compliance failure explanations |
 | Gary | AI professional coach agent — behavioural analysis and coaching insights (deferred) |
 | RoA | Record of Advice — regulatory documentation of advice given |
 | FNA | Financial Needs Analysis — client assessment inputs |
@@ -591,7 +631,12 @@ esa ..down..> bob : update\ncontext
 | QTD | Quarter-to-Date — performance measurement period |
 | GAP | Pre-signature opportunity (not yet in pipeline) |
 | Pipeline | Post-signature, pre-fulfilment opportunity (committed revenue) |
-| CRM | Customer Relationship Management — BIAN service domain for managing customer relationships |
+| CRM | Customer Relationship Management — service domain for managing customer relationships |
+| RAG | Retrieval-Augmented Generation — technique that augments LLM prompts with relevant context retrieved from a vector store to improve accuracy and grounding |
+| pgvector | PostgreSQL extension providing vector similarity search — used as the vector store for agent RAG |
+| PII | Personally Identifiable Information — data that can identify an individual (names, ID numbers, account numbers, addresses) |
+| PII Tokenisation | Process of replacing PII with reversible, session-scoped tokens before data leaves the trust boundary (i.e. before LLM submission) |
+| LLM | Large Language Model — external AI model service used by agents for natural language generation and reasoning |
 
 ---
 

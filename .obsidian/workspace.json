@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "2026 Reviews Q2.md",
+                "file": "03-Projects/AIR/SAD/system-architecture-design-V2.0.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026 Reviews Q2"
+              "title": "system-architecture-design-V2.0"
             }
           }
         ]
@@ -227,11 +227,12 @@
   },
   "active": "592cbe8ce6f046f8",
   "lastOpenFiles": [
+    "03-Projects/AIR/SAD/system-architecture-design-V2.0.md",
+    "system-architecture-design-V2.0.pdf",
     "System Architecture Design V1.0.pdf",
+    "2026 Reviews Q2.md",
     "System Architecture Design V1.1.pdf",
     "System Architecture Design V2.0.pdf",
-    "system-architecture-design-V2.0.pdf",
-    "03-Projects/AIR/SAD/system-architecture-design-V2.0.md",
     "03-Projects/AIR/SAD/System Architecture Design V2.0.md",
     "03-Projects/AIR/SAD/System Architecture Design V1.1.md",
     "03-Projects/AIR/SAD/Diagrams/Container.md",
@@ -262,7 +263,6 @@
     "01-Daily-Notes/2026/May/2026-05-11-Mon.md",
     "01-Daily-Notes/2026/May/2026-05-17-Sun.md",
     "03-Projects/IPG PUML.md",
-    "03-Projects/SIT to IPG Migration.md",
     "99-Meta/Attachments/Pasted image 20260513103025.png",
     "99-Meta/Attachments/Pasted image 20260309130423.png",
     "99-Meta/Attachments/Pasted image 20260415134414.png",
