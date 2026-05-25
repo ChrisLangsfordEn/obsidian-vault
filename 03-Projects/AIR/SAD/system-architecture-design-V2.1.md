@@ -143,7 +143,7 @@ skinparam linetype polyline
 
 title AIR API — Modular Monolith Component Diagram
 
-Container_Boundary(api, "AIR API (Modular Monolith)","") {
+Container_Boundary(api, "AIR API (Modular Monolith)") {
 
     ' === Core Domain Modules ===
     Component(workbenchModule, "Customer Workbench Module", "Spring Boot Module", "Priority queue presentation, performance scorecard, aggregated read projection for Bob's context window, advisor day schedule")
@@ -338,10 +338,10 @@ title AIR Deployment Diagram — AWS EKS
 
 hide stereotype
 skinparam linetype ortho
-left to right direction
+top to bottom direction
 
-' ── External Systems (left edge — entry point for user traffic) ──────────────
-rectangle "External Services" as ext {
+' ── External Services (top row — horizontal alignment) ───────────────────────
+together {
     IdentityandAccessManagement(entraId, "Microsoft Entra ID\nOAuth2/OIDC", "Corporate IdP")
     Internet(pep, "AdviceConsumer API\n(via PEP)", "Enterprise Gateway")
     Internet(ecm, "Document Management\n& Archive API", "Document storage & retrieval")
