@@ -297,64 +297,71 @@ title AIR Deployment Diagram — AWS EKS
 
 hide stereotype
 skinparam linetype ortho
+left to right direction
 
-' === External Systems ===
+' ── External Systems (left edge — entry point for user traffic) ──────────────
 rectangle "External Services" as ext {
     IdentityandAccessManagement(entraId, "Microsoft Entra ID\nOAuth2/OIDC", "Corporate IdP")
     Internet(pep, "AdviceConsumer API\n(via PEP)", "Enterprise Gateway")
 }
 
-' === AWS Cloud ===
+' ── AWS Cloud ────────────────────────────────────────────────────────────────
 AWSCloudGroup(cloud) {
 
-    ' === CDN & Static Hosting ===
-    CloudFront(cdn, "CloudFront Distribution", "Routes /api/* to ALB\nServes static assets from S3")
+    ' ── CDN & Static Hosting ─────────────────────────────────────────────────
+    CloudFront(cdn, "CloudFront", "Routes /api/* → ALB\nServes static assets from S3")
     SimpleStorageService(s3, "S3 Bucket", "Angular 19+ SPA\nbuild artefacts")
 
-    ' === VPC ===
+    ' ── VPC ──────────────────────────────────────────────────────────────────
     VPCGroup(vpc, "VPC (Private)") {
 
-        ' === Public Subnet — Load Balancer ===
+        ' ── Public Subnet ────────────────────────────────────────────────────
         PublicSubnetGroup(pubSubnet, "Public Subnet") {
-            ElasticLoadBalancingApplicationLoadBalancer(alb, "Application Load Balancer", "TLS termination\npath-based routing")
+            ElasticLoadBalancingApplicationLoadBalancer(alb, "Application\nLoad Balancer", "TLS termination\npath-based routing")
         }
 
-        ' === Private Subnet — EKS Cluster ===
+        ' ── Private Subnet ───────────────────────────────────────────────────
         PrivateSubnetGroup(privSubnet, "Private Subnet") {
 
             ElasticKubernetesService(eks, "EKS Cluster", "Kubernetes 1.28+")
 
             rectangle "Namespace: air-production" as nsProd {
-                EC2Instance(pod1, "AIR API Pod\n(replica 1)", "Java 21, Spring Boot 4.x\nAll bounded context modules\n+ Bob & Vera agents")
-                EC2Instance(pod2, "AIR API Pod\n(replica 2)", "Horizontal scaling via HPA")
+                EC2Instance(pod1, "AIR API Pod (1)", "Java 21 · Spring Boot 4.x\nAll modules + Bob & Vera")
+                EC2Instance(pod2, "AIR API Pod (2)", "HPA replica")
             }
 
-            rectangle "Namespace: air-pr-env (x2-3)" as nsPR {
-                EC2Instance(prPod, "AIR API Pod (PR)", "PR environment\nMock/staging data via Liquibase")
+            rectangle "Namespace: air-pr-env" as nsPR {
+                EC2Instance(prPod, "AIR API Pod (PR)", "Ephemeral · Liquibase staging data")
             }
         }
 
-        ' === Data Layer ===
+        ' ── Data Layer ───────────────────────────────────────────────────────
         AvailabilityZoneGroup(dataAz, "Data Layer — Multi-AZ") {
-            RDS(rds, "PostgreSQL 15+", "Multi-AZ, encrypted at rest\nModule-owned schemas")
+            RDS(rds, "PostgreSQL 15+", "Multi-AZ · encrypted\nModule-owned schemas")
         }
     }
 
-    ' === Container Registry ===
-    ElasticContainerRegistry(ecr, "ECR", "Docker images\nbuilt via CI/CD")
+    ' ── ECR (bottom — infra concern, kept away from user-traffic path) ───────
+    ElasticContainerRegistry(ecr, "ECR", "Docker images\nbuilt by CI/CD")
 }
 
-' === Relationships ===
-cdn -d-> s3 : Serves static assets\n(HTTPS)
-cdn -d-> alb : Proxies /api/* requests\n(HTTPS)
-alb -d-> pod1 : Routes traffic\n(HTTP/8080)
-alb -d-> pod2 : Routes traffic\n(HTTP/8080)
-pod1 -d-> rds : JDBC\n(PostgreSQL/5432)
-pod2 -d-> rds : JDBC\n(PostgreSQL/5432)
-prPod -d-> rds : Staging data profile\n(PostgreSQL/5432)
-pod1 -r-> pep : REST via PEP\n+ Circuit Breaker (HTTPS)
-pod1 -r-> entraId : JWKS validation\n(HTTPS)
-ecr -u-> eks : Pulls images
+' ── User Traffic Flow (left → right) ─────────────────────────────────────────
+cdn --> s3  : static assets (HTTPS)
+cdn --> alb : /api/* (HTTPS)
+alb --> pod1 : HTTP/8080
+alb --> pod2 : HTTP/8080
+
+' ── Pod → Data ────────────────────────────────────────────────────────────────
+pod1 --> rds  : JDBC / 5432
+pod2 --> rds  : JDBC / 5432
+prPod --> rds : JDBC / 5432 (staging)
+
+' ── Pod → External Services ───────────────────────────────────────────────────
+pod1 -u-> pep     : REST + Circuit Breaker (HTTPS)
+pod1 -u-> entraId : JWKS validation (HTTPS)
+
+' ── Infra: ECR → EKS (bottom, isolated from traffic flow) ────────────────────
+ecr -u-> eks : image pull
 
 @enduml
 ```
