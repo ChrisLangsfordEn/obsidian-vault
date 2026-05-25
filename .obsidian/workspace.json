@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03-Projects/AIR/SAD/System Architecture Design V1.1.md",
+                "file": "03-Projects/AIR/SAD/Diagrams/Deployment.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "System Architecture Design V1.1"
+              "title": "Deployment"
             }
           }
         ]
@@ -96,8 +96,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 276.5,
-    "collapsed": true
+    "width": 276.5
   },
   "right": {
     "id": "4f94c767381c7b53",
@@ -228,20 +227,20 @@
   },
   "active": "7066fe3269748366",
   "lastOpenFiles": [
+    "03-Projects/AIR/SAD/System Architecture Design V1.1.md",
+    "03-Projects/AIR/SAD/Diagrams/Context.md",
+    "03-Projects/AIR/SAD/Diagrams/Deployment.md",
     "System Architecture Design V1.1.pdf",
     "03-Projects/AIR/SAD/Jesse.md",
     "03-Projects/AIR/SAD/Diagrams/Event Flow.md",
-    "03-Projects/AIR/SAD/System Architecture Design V1.1.md",
     "03-Projects/AIR/SAD/Diagrams/Untitled",
     "03-Projects/AIR/SAD/Diagrams/Event - flow.md",
     "03-Projects/AIR/SAD/Diagrams/Event-flow.md",
     "03-Projects/AIR/SAD/Diagrams/Component - AI.md",
-    "03-Projects/AIR/SAD/Diagrams/Deployment.md",
     "03-Projects/AIR/SAD",
     "03-Projects/AIR/SAD/Diagrams",
     "03-Projects/AIR/SAD/Diagrams/Container.md",
     "03-Projects/AIR/SAD/Diagrams/Component - API.md",
-    "03-Projects/AIR/SAD/Diagrams/Context.md",
     "01-Daily-Notes/2026/May/2026-05-25-Mon.md",
     "System Architecture Design V1.0.pdf",
     "03-Projects/Kiro/generate-steering.md",
@@ -265,7 +264,6 @@
     "01-Daily-Notes/2026/May/2026-05-14-Thu.md",
     "03-Projects/Kiro/Untitled",
     "99-Meta/Attachments/Pasted image 20260513103025.png",
-    "01-Daily-Notes/2026/May",
     "99-Meta/Attachments/Pasted image 20260309130423.png",
     "99-Meta/Attachments/Pasted image 20260415134414.png",
     "99-Meta/Attachments/Pasted image 20251124140057.png",

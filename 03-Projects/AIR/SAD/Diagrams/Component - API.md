@@ -1,6 +1,11 @@
 ```plantuml
 @startuml AIR_API_Components
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+' Include standard AWS library resources
+!include <awslib/AWSCommon>
+!include <awslib/Compute/EC2>
+!include <awslib/Database/RDS>
+!include <awslib/NetworkingContentDelivery/ElasticLoadBalancing>
+'!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
 LAYOUT_WITH_LEGEND()
 
