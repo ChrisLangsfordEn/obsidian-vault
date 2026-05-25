@@ -12,4 +12,7 @@ i.e. look at bank capabilities - see which domains map to existing capabilities
 
 # Feedback Round 2
 
+run local plantuml server with plugins installed - point docs at it
+
+
 ## Questions
