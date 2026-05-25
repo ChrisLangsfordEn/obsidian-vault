@@ -5,7 +5,7 @@
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
 LAYOUT_WITH_LEGEND()
-LAYOUT_LEFT_RIGHT()
+'LAYOUT_LEFT_RIGHT()
 
 skinparam linetype polyline
 
