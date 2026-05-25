@@ -3,7 +3,6 @@
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
 LAYOUT_WITH_LEGEND()
-LAYOUT_LEFT_RIGHT()
 
 skinparam linetype polyline
 
@@ -25,7 +24,7 @@ System_Boundary(airSystem, "AIR Platform") {
     ' === Tier 4: AI Agent Services ===
     Container(bob, "Bob Agent", "Spring AI", "Advisor's personal assistant — cross-context agent providing queue reasoning, proposal drafting, engagement prep, notebook interpretation, and general advisory support")
     Container(vera, "Vera Agent", "Spring AI + Rules Engine", "Compliance agent — validates proposals (sync), enforces suitability checks, flags risks")
-    Container(gary, "Gary Agent", "Spring AI", "")
+    Container(gary, "Gary Agent", "Spring AI", "AI professional coach agent — behavioural analysis and coaching insights")
 
     ' === Tier 5: Data Layer (rightmost) ===
     Container(eventBus, "Internal Event Bus", "Spring Application Events", "In-process event backbone for cross-module communication, agent orchestration, and workbench projection updates")
@@ -52,10 +51,12 @@ Rel(api, eventBus, "Publishes/subscribes domain events", "In-process")
 ' === Relationships: Event Bus -> Agents ===
 Rel(eventBus, bob, "Routes events", "AdviceCaseCreated, ProposalSectionEdited, LeadSignalDetected, EngagementSummaryAvailable")
 Rel(eventBus, vera, "Routes events", "ProposalCompleted (sync validation gate)")
+Rel(eventBus, gary, "Routes events", "TBC")
 
 ' === Relationships: Agents -> API ===
 Rel(bob, api, "Produces suggestions/drafts, reads from all context modules", "In-process")
 Rel(vera, api, "Returns validations/violations", "In-process")
+Rel(gary, api, "Produces professional coaching suggestions", "In-process")
 
 @enduml
 ```
