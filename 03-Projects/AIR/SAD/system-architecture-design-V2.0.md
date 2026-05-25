@@ -17,7 +17,6 @@ Shows the AIR system in its environment, with external actors and systems.
 
 LAYOUT_WITH_LEGEND()
 
-
 title AIR System Context Diagram
 
 ' === Tier 1: Actors (leftmost) ===
@@ -74,6 +73,7 @@ System_Boundary(airSystem, "AIR Platform") {
     ' === Tier 4: AI Agent Services ===
     Container(bob, "Bob Agent", "Spring AI", "Advisor's personal assistant — cross-context agent providing queue reasoning, proposal drafting, engagement prep, notebook interpretation, and general advisory support")
     Container(vera, "Vera Agent", "Spring AI + Rules Engine", "Compliance agent — validates proposals (sync), enforces suitability checks, flags risks")
+    Container(gary, "Gary Agent", "Spring AI", "Advisor's performance coach")
 
     ' === Tier 5: Data Layer (rightmost) ===
     Container(eventBus, "Event Bus", "Queue", "In-process event backbone for cross-module communication, agent orchestration, and workbench projection updates")
@@ -100,10 +100,12 @@ Rel(api, eventBus, "Publishes/subscribes domain events", "In-process")
 ' === Relationships: Event Bus -> Agents ===
 Rel(eventBus, bob, "Routes events", "AdviceCaseCreated, ProposalSectionEdited, LeadSignalDetected, EngagementSummaryAvailable")
 Rel(eventBus, vera, "Routes events", "ProposalCompleted (sync validation gate)")
+Rel(eventBus, gary, "Routes events", "TBC")
 
 ' === Relationships: Agents -> API ===
 Rel(bob, api, "Produces suggestions/drafts, reads from all context modules", "In-process")
 Rel(vera, api, "Returns validations/violations", "In-process")
+Rel(gary, api, "Produces performance improvement suggestions", "In-process")
 
 @enduml
 ```
@@ -134,7 +136,7 @@ Container_Boundary(api, "AIR API (Modular Monolith)") {
     Component(workbenchModule, "Customer Workbench Module", "Spring Boot Module", "BIAN: Customer Workbench + Point of Service. Priority queue presentation, performance scorecard, aggregated read projection for Bob's context window, advisor day schedule")
     Component(leadOpportunityModule, "Lead & Opportunity Management Module", "Spring Boot Module", "BIAN: Lead and Opportunity Management + Customer Behavior Insights + Product Matching. Manages leads, opportunities, scoring, pipeline classification, feedback, and the Next-Best-Action Prioritisation Service")
     Component(customerInsightsModule, "Customer Relationship & Insights Module", "Spring Boot Module", "BIAN: CRM + Party Reference Data Directory + Customer Financial Insights. Read-only consolidated view of client profiles, financial position, money flows, risk profiles, FNA inputs")
-    Component(advisoryServicesModule, "Consumer Advisory Services Module", "Spring Boot Module", "BIAN: Consumer Advisory Services + Customer Case Management. Orchestrates advice case stages, owns the Opportunity Setup wizard, manages stage transitions and outcome anchors")
+    Component(advisoryServicesModule, "Consumer Advisory Services Module", "Spring Boot Module/Camunda ", "BIAN: Consumer Advisory Services + Customer Case Management. Orchestrates advice case stages, owns the Opportunity Setup wizard, manages stage transitions and outcome anchors")
     Component(proposalModule, "Advisory Proposal Construction Module", "Spring Boot Module", "BIAN: Consumer Advisory Services (proposal) + Suitability Checking + Investment Portfolio Planning. Builds and versions proposals and Record of Advice — sections, calculations, diffs, template progression")
     Component(complianceModule, "Regulatory & Suitability Compliance Module", "Spring Boot Module", "BIAN: Regulatory Compliance + Guideline Compliance + Suitability Checking. Synchronous validation — suitability checks, mandate validation, risk profile mismatch, FICA gaps, disclosure requirements")
 
