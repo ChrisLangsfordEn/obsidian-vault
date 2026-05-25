@@ -146,7 +146,7 @@ title AIR API — Modular Monolith Component Diagram
 Container_Boundary(api, "AIR API (Modular Monolith)") {
 
     ' === Core Domain Modules ===
-    Component(workbenchModule, "Customer Workbench Module", "Spring Boot Module", "Priority queue presentation, performance scorecard, aggregated read projection for Bob's context window, advisor day schedule")
+    Component(workbenchModule, "Customer Workbench Module", "Spring Boot Module", "Priority queue presentation, performance scorecard, aggregated read projection for Bob's context window, advisor day schedule","")
     Component(leadOpportunityModule, "Lead & Opportunity Management Module", "Spring Boot Module", "Manages leads, opportunities, scoring, pipeline classification, feedback, and the Next-Best-Action Prioritisation Service")
     Component(customerInsightsModule, "Customer Relationship & Insights Module", "Spring Boot Module", "Read-only consolidated view of client profiles, financial position, money flows, risk profiles, FNA inputs")
     Component(advisoryServicesModule, "Consumer Advisory Services Module", "Spring Boot Module/Camunda ", "Orchestrates advice case stages, owns the Opportunity Setup wizard, manages stage transitions and outcome anchors")
@@ -230,7 +230,7 @@ title AI Agents & Orchestration — Component Diagram
 
 ' === Tier 4: Domain Modules (leftmost — they produce events and serve data) ===
 Container_Boundary(modules, "Domain Modules") {
-    Component(workbenchModule, "Customer Workbench Module", "Spring Boot Module", "Aggregated read projection, queue presentation")
+    Component(workbenchModule, "Customer Workbench Module", "Spring Boot Module", "Aggregated read projection, queue presentation","")
     Component(leadOpportunityModule, "Lead & Opportunity Management Module", "Spring Boot Module", "Leads, scoring, prioritisation service")
     Component(proposalModule, "Advisory Proposal Construction Module", "Spring Boot Module", "Builds proposals and RoA")
     Component(advisoryServicesModule, "Consumer Advisory Services Module", "Spring Boot Module", "Case lifecycle, setup wizard, stage transitions")

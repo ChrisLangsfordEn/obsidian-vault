@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "14f07eeea6613bf6",
+        "id": "4998187c2b89c03b",
         "type": "tabs",
         "children": [
           {
-            "id": "592cbe8ce6f046f8",
+            "id": "fc928a09419e7ba7",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -225,10 +225,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "592cbe8ce6f046f8",
+  "active": "fc928a09419e7ba7",
   "lastOpenFiles": [
-    "03-Projects/AIR/SAD/system-architecture-design-V2.0.md",
     "03-Projects/AIR/SAD/system-architecture-design-V2.1.md",
+    "03-Projects/AIR/SAD/system-architecture-design-V2.0.md",
     "system-architecture-design-V2.1.pdf",
     "system-architecture-design-V2.0.pdf",
     "System Architecture Design V1.0.pdf",
