@@ -1,77 +1,77 @@
 ```plantuml
 @startuml AIR_Deployment
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Deployment.puml
 
-LAYOUT_WITH_LEGEND()
-LAYOUT_LEFT_RIGHT()
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v18.0/dist
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/AWSSimplified.puml
+!include AWSPuml/Containers/ElasticKubernetesService.puml
+!include AWSPuml/Containers/ElasticContainerRegistry.puml
+!include AWSPuml/Database/RDSPostgreSQLinstance.puml
+!include AWSPuml/NetworkingContentDelivery/CloudFront.puml
+!include AWSPuml/NetworkingContentDelivery/ElasticLoadBalancing.puml
+!include AWSPuml/Storage/SimpleStorageService.puml
+!include AWSPuml/SecurityIdentityCompliance/MicrosoftAD.puml
+!include AWSPuml/Groups/all.puml
+
+skinparam linetype polyline
+skinparam rectangle {
+    RoundCorner 8
+}
 
 title AIR Deployment Diagram — AWS EKS
 
-' === External Services (horizontally aligned) ===
-together {
-    Deployment_Node(entra, "Microsoft Entra ID", "Identity Provider") {
-        Container(entraId, "Entra ID", "OAuth2/OIDC", "Corporate authentication, JWKS endpoint for token validation")
-    }
+' ── External Services ──────────────────────────────────────────────────────────
 
-    Deployment_Node(pep_node, "PEP (Policy Enforcement Point)", "Enterprise API Gateway — Same VPC / Peering") {
-        Container(pepService, "AdviceConsumer API", "REST Service via PEP", "Lead sync source, deal execution target — accessed through enterprise API gateway")
-    }
+rectangle "Microsoft Entra ID\n<i>Identity Provider (OAuth2/OIDC)</i>" as entra #DDEEFF {
+    MicrosoftAD(entraId, "Entra ID", "JWKS endpoint for JWT validation\nCorporate authentication")
 }
 
-' === Tier 2: Presentation Layer ===
-Deployment_Node(aws, "AWS Cloud", "Amazon Web Services") {
+rectangle "Enterprise API Gateway (PEP)\n<i>Same VPC / Peering</i>" as pep #DDEEFF {
+    rectangle pepService as "AdviceConsumer API\n<i>REST via Policy Enforcement Point</i>\nLead sync source, deal execution target"
+}
 
-    Deployment_Node(cloudfront_node, "CloudFront", "CDN") {
-        Container(cdn, "CloudFront Distribution", "AWS CloudFront", "Routes /api/* to ALB, serves static assets from S3")
-    }
+' ── AWS Cloud ──────────────────────────────────────────────────────────────────
 
-    Deployment_Node(s3_node, "S3 Bucket", "Static Hosting") {
-        Container(angular, "Angular SPA", "Angular 19+ build artefacts", "Advisor workbench, dashboards, proposal builder UI")
-    }
+AWSGroupColour(AWSCloud, "AWS Cloud") {
 
-    ' === Tier 3: API / Ingress Layer ===
-    Deployment_Node(vpc, "VPC (Private)", "AWS VPC") {
+    CloudFront(cdn, "CloudFront Distribution", "Routes /api/* to ALB\nServes static assets from S3")
+    SimpleStorageService(angular, "S3 — Angular SPA", "Angular 19+ build artefacts\nAdvisor workbench & proposal builder UI")
 
-        Deployment_Node(eks, "EKS Cluster", "Kubernetes 1.28+") {
+    AWSGroupColour(VPC, "VPC (Private)") {
 
-            Deployment_Node(alb_node, "ALB", "AWS Application Load Balancer") {
-                Container(alb, "Ingress Controller", "AWS ALB Ingress", "TLS termination, path-based routing to pods")
+        ElasticLoadBalancing(alb, "ALB — Ingress Controller", "TLS termination\nPath-based routing to pods")
+
+        AWSGroupColour(EKSCluster, "EKS Cluster — Kubernetes 1.28+") {
+
+            AWSGroupColour(NSMain, "Namespace: air-production") {
+                ElasticKubernetesService(pod1, "AIR API Pod (replica 1)", "Java 21 · Spring Boot 4.x\nModular monolith · Bob & Vera agents")
+                ElasticKubernetesService(pod2, "AIR API Pod (replica 2)", "Java 21 · Spring Boot 4.x\nHorizontal scaling via HPA")
             }
 
-            ' === Tier 4: Service Layer (vertically aligned namespaces) ===
-            together {
-                Deployment_Node(ns_main, "Namespace: air-production", "Kubernetes Namespace") {
-                    Container(pod1, "AIR API Pod (replica 1)", "Java 21, Spring Boot 4.x", "Modular monolith with all bounded context modules + Bob & Vera agents")
-                    Container(pod2, "AIR API Pod (replica 2)", "Java 21, Spring Boot 4.x", "Horizontal scaling via HPA")
-                }
-
-                Deployment_Node(ns_pr, "Namespace: air-pr-env (x2-3)", "PR Environment") {
-                    Container(prPod, "AIR API Pod (PR)", "Java 21, Spring Boot 4.x", "PR environment with mock/staging data loaded via Liquibase profiles")
-                }
+            AWSGroupColour(NSPr, "Namespace: air-pr-env (×2–3)") {
+                ElasticKubernetesService(prPod, "AIR API Pod (PR)", "Java 21 · Spring Boot 4.x\nEphemeral env · Liquibase staging profile")
             }
         }
 
-        ' === Tier 5: Data Layer (rightmost) ===
-        Deployment_Node(rds_node, "RDS", "AWS RDS Multi-AZ") {
-            ContainerDb(rds, "PostgreSQL 15+", "AWS RDS", "Multi-AZ, encrypted at rest, module-owned schemas")
-        }
-
-        Deployment_Node(ecr_node, "ECR", "Container Registry") {
-            Container(ecr, "Container Images", "AWS ECR", "Docker images built via CI/CD pipeline")
-        }
+        RDSPostgreSQLinstance(rds, "PostgreSQL 15+", "AWS RDS Multi-AZ\nEncrypted at rest · Module-owned schemas")
+        ElasticContainerRegistry(ecr, "Container Images", "AWS ECR\nDocker images built via CI/CD pipeline")
     }
 }
 
-' === Relationships: left-to-right flow ===
-Rel(cdn, angular, "Serves static assets", "HTTPS")
-Rel(cdn, alb, "Proxies /api/* requests", "HTTPS")
-Rel(alb, pod1, "Routes traffic", "HTTP/8080")
-Rel(alb, pod2, "Routes traffic", "HTTP/8080")
-Rel(pod1, rds, "JDBC connections", "PostgreSQL/5432")
-Rel(pod2, rds, "JDBC connections", "PostgreSQL/5432")
-Rel(pod1, pepService, "REST calls via PEP with circuit breaker", "HTTPS")
-Rel(pod1, entraId, "JWKS validation", "HTTPS")
-Rel(prPod, rds, "Uses staging data profile", "PostgreSQL/5432")
+' ── Relationships ──────────────────────────────────────────────────────────────
+
+cdn --> angular        : Serves static assets\n<i>HTTPS</i>
+cdn --> alb            : Proxies /api/* requests\n<i>HTTPS</i>
+alb --> pod1           : Routes traffic\n<i>HTTP :8080</i>
+alb --> pod2           : Routes traffic\n<i>HTTP :8080</i>
+pod1 --> rds           : JDBC connections\n<i>PostgreSQL :5432</i>
+pod2 --> rds           : JDBC connections\n<i>PostgreSQL :5432</i>
+prPod --> rds          : Staging data profile\n<i>PostgreSQL :5432</i>
+pod1 --> pepService    : REST via PEP + circuit breaker\n<i>HTTPS</i>
+pod1 --> entraId       : JWKS validation\n<i>HTTPS</i>
+ecr --> pod1           : Image pull\n<i>Docker</i>
+ecr --> pod2           : Image pull\n<i>Docker</i>
+ecr --> prPod          : Image pull\n<i>Docker</i>
 
 @enduml
 ```
