@@ -27,7 +27,7 @@ System_Boundary(airSystem, "AIR Platform") {
     Container(gary, "Gary Agent", "Spring AI", "AI professional coach agent — behavioural analysis and coaching insights")
 
     ' === Tier 5: Data Layer (rightmost) ===
-    Container(eventBus, "Internal Event Bus", "Spring Application Events", "In-process event backbone for cross-module communication, agent orchestration, and workbench projection updates")
+    Container(eventBus, "Event Bus", "Queue", "Event backbone for cross-module communication, agent orchestration, and workbench projection updates")
     ContainerDb(db, "PostgreSQL Database", "AWS RDS PostgreSQL 15+", "Stores opportunities, advice cases, proposals, compliance artefacts, engagement records, notebook, audit trail")
 }
 
@@ -43,10 +43,10 @@ Rel(spa, api, "Calls REST endpoints", "HTTPS/JSON + Bearer JWT")
 Rel(spa, entraId, "Authenticates via MSAL", "OAuth2/PKCE")
 
 ' === Relationships: Tier 3/4 -> Tier 5 ===
+Rel(api, eventBus, "Publishes/subscribes domain events", "In-process")
 Rel(api, db, "Reads/writes domain data", "JDBC/SQL")
 Rel(api, pep, "Syncs leads, executes deals", "REST/JSON via PEP + Circuit Breaker")
 Rel(api, entraId, "Validates JWT tokens", "JWKS")
-Rel(api, eventBus, "Publishes/subscribes domain events", "In-process")
 
 ' === Relationships: Event Bus -> Agents ===
 Rel(eventBus, bob, "Routes events", "AdviceCaseCreated, ProposalSectionEdited, LeadSignalDetected, EngagementSummaryAvailable")
