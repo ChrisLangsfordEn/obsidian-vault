@@ -21,7 +21,12 @@ Agents - tokenization (anonymize customer data & PII) e.g. look up internal cust
 Look at questions on module (bedrock on FRG tenant for now) - or all go through an IDNA endpoint.
 
 Orchestrator - Camunda 7 vs 8? Where to start? 
+Go AWS route - say this is a quick and dirty way to get started.
 
 ## Questions
 
 Where to document the tokenization process?
+
+Fix event bus labels
+Fix rules engine domains
+Camunda labels for orchestrators?
