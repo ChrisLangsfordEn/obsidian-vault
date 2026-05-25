@@ -3,6 +3,7 @@
 ## Questions
 
 Token vs certificate approach? Not familiar with the two approaches.
+Fetches user details - (cached). 
 
 # Feedback Round 2
 

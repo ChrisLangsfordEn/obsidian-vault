@@ -6,63 +6,65 @@
 
 LAYOUT_WITH_LEGEND()
 
+
 skinparam linetype polyline
 
 title AI Agents & Orchestration — Component Diagram
 
-' === Event Bus (top-level, acts as the bridge) ===
-Component_Ext(eventBus, "Event Bus", "Spring Application Events", "Routes domain events to agent subscriptions")
-
-Container_Boundary(api, "AIR API (Modular Monolith)") {
-
-    ' === Core Domain Modules ===
-    Boundary(core, "Core Domain") {
-        Component(workbenchModule,   "Advisor Workbench",       "Spring Boot Module", "Queue presentation, aggregated read projection")
-        Component(opportunityModule, "Opportunity & Portfolio", "Spring Boot Module", "Leads, scoring, prioritisation service")
-        Component(clientModule,      "Client Context",          "Spring Boot Module", "Customer 360 read model")
-        Component(lifecycleModule,   "Advice Case Lifecycle",   "Spring Boot Module", "Case stages, setup wizard, transitions")
-        Component(proposalModule,    "Advice Construction",     "Spring Boot Module", "Proposals, RoA, versioning")
-        Component(rulesModule,       "Compliance Rules",        "Spring Boot Module", "Deterministic rule enforcement")
-    }
-
-    ' === Supporting Domain Modules ===
-    Boundary(supporting, "Supporting Domain") {
-        Component(engagementModule,  "Client Engagement",       "Spring Boot Module", "Client interaction capture")
-        Component(documentModule,    "Document & Acceptance",   "Spring Boot Module", "Document generation, client acceptance")
-        Component(productivityModule,"Advisor Productivity",    "Spring Boot Module", "Notebook, dictation, notes library")
-    }
-
-    ' === AI Agent Layer ===
-    Boundary(agents, "AI Agent Layer") {
-        Component(orchestrator, "Advice Lifecycle Orchestrator", "Spring Service",             "Tracks lifecycle state, enforces policy gates, triggers validations")
-        Component(bob,          "Bob — Personal Assistant",      "Spring AI Agent",            "Cross-context agent: proposal drafting, queue reasoning, engagement prep, notebook interpretation")
-        Component(vera,         "Vera — Compliance Agent",       "Spring AI + Rules Engine",   "Sync proposal validation, suitability enforcement, risk flagging")
-    }
+' === Tier 4: Domain Modules (leftmost — they produce events and serve data) ===
+Container_Boundary(modules, "Domain Modules") {
+    Component(workbenchModule, "Advisor Workbench Module", "Spring Boot Module", "Aggregated read projection, queue presentation")
+    Component(opportunityModule, "Opportunity & Portfolio Module", "Spring Boot Module", "Leads, scoring, prioritisation service")
+    Component(proposalModule, "Proposal Builder Module", "Spring Boot Module", "Builds proposals and RoA")
+    Component(lifecycleModule, "Advice Lifecycle Module", "Spring Boot Module", "Case lifecycle, setup wizard, stage transitions")
+    Component(engagementModule, "Engagement Module", "Spring Boot Module", "Client interaction capture")
+    Component(clientModule, "Client Context Module", "Spring Boot Module", "Customer 360 read model")
+    Component(rulesModule, "Compliance Rules Module", "Spring Boot Module", "Deterministic rule enforcement")
+    Component(documentModule, "Document & Acceptance Module", "Spring Boot Module", "Document generation, client acceptance")
+    Component(productivityModule, "Advisor Productivity Module", "Spring Boot Module", "Notebook, dictation, notes library")
 }
 
-' ── Event Publishing (Core Modules → Bus) ─────────────────────────────────
-Rel_Up(opportunityModule, eventBus, "LeadSignalDetected, LeadPromotedToQueue,\nOpportunityReadyForEngagement, QueueRanked")
-Rel_Up(proposalModule,    eventBus, "ProposalSectionEdited, ProposalCompleted")
-Rel_Up(lifecycleModule,   eventBus, "AdviceCaseCreated, StageAdvanced, CaseCompleted")
-Rel_Up(engagementModule,  eventBus, "EngagementCaptured, EngagementSummaryAvailable")
-Rel_Up(documentModule,    eventBus, "ClientAccepted, DocumentGenerated")
+Component_Ext(eventBus, "Event Bus", "Spring Application Events", "Routes domain events to agent subscriptions")
 
-' ── Event Consumption (Bus → Agents) ──────────────────────────────────────
-Rel_Down(eventBus, bob,  "AdviceCaseCreated, ProposalSectionEdited,\nEngagementSummaryAvailable, LeadSignalDetected", "Async")
+' === Agent Layer ===
+Container_Boundary(agents, "AI Agent Layer") {
 
-' ── Orchestrator (policy gate chain) ──────────────────────────────────────
+    Component(orchestrator, "Advice Lifecycle Orchestrator", "Spring Service", "Tracks lifecycle state, triggers validations, ensures required steps are completed, enforces policy gates")
+    Component(bob, "Bob — Advisor's Personal Assistant", "Spring AI Agent", "Application-layer agent: drafts proposals, reasons about queue, preps engagements, interprets notes, provides general advisory support. Cross-context read access.")
+    Component(vera, "Vera — Compliance Agent", "Spring AI Agent + Rules Engine", "Domain service: validates proposals (sync), enforces suitability, flags risks. Deterministic, guardrail-focused.")
+}
+
+' === Relationships: Domain Modules -> Event Bus ===
+Rel(opportunityModule, eventBus, "LeadSignalDetected, LeadPromotedToQueue, QueueRanked, OpportunityReadyForEngagement")
+Rel(proposalModule, eventBus, "ProposalSectionEdited, ProposalCompleted")
+Rel(lifecycleModule, eventBus, "AdviceCaseCreated, StageAdvanced, CaseCompleted")
+Rel(engagementModule, eventBus, "EngagementCaptured, EngagementSummaryAvailable")
+Rel(documentModule, eventBus, "ClientAccepted, DocumentGenerated")
+
+' === Relationships: Event Bus -> Agents ===
+Rel(eventBus, bob, "AdviceCaseCreated, ProposalSectionEdited, EngagementSummaryAvailable, LeadSignalDetected", "Async")
+
+' === Relationships: Orchestrator -> Services ===
+Rel(orchestrator, vera, "ValidateProposal, CheckSuitability (policy gate)", "Sync")
 Rel(orchestrator, lifecycleModule, "Manages state transitions, enforces gates")
-Rel(orchestrator, vera,            "ValidateProposal, CheckSuitability", "Sync policy gate")
-Rel(vera,         rulesModule,     "Executes rule validations")
 
-' ── Bob Reads (grouped by boundary) ───────────────────────────────────────
-Rel(bob, core,      "Reads leads, cases, stages, client profiles,\ncompliance requirements for context window")
-Rel(bob, supporting,"Reads engagement history, templates,\nnotebook content for interpretation")
+' === Relationships: Bob -> Domain Modules (reads) ===
+Rel(bob, workbenchModule, "Reads aggregated projection for context window")
+Rel(bob, opportunityModule, "Reads leads, scores, signals")
+Rel_Left(bob, lifecycleModule, "Reads active cases, current stages")
+Rel(bob, clientModule, "Reads client profiles, financials")
+Rel(bob, engagementModule, "Reads past engagement sessions")
+Rel(bob, rulesModule, "Reads compliance requirements for pre-emptive suggestions")
+Rel(bob, documentModule, "Reads template requirements")
+Rel(bob, productivityModule, "Reads notebook content for interpretation")
 
-' ── Bob Writes (explicit — these are the meaningful ones) ─────────────────
-Rel(bob, proposalModule,    "Produces proposal suggestions & drafts",  "Write")
-Rel(bob, workbenchModule,   "Surfaces queue suggestions",              "Write")
-Rel(bob, opportunityModule, "Surfaces new leads",                      "Write")
+' === Relationships: Bob -> Domain Modules (writes) ===
+Rel(bob, proposalModule, "Produces suggestions & drafts", "Write")
+Rel(bob, workbenchModule, "Produces queue suggestions", "Write")
+Rel(bob, opportunityModule, "Surfaces new leads", "Write")
+
+' === Relationships: Vera -> Domain Modules ===
+Rel(vera, rulesModule, "Executes rule validations")
 
 @enduml
 ```
