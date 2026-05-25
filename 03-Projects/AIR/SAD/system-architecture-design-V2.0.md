@@ -16,7 +16,7 @@ Shows the AIR system in its environment, with external actors and systems.
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
 LAYOUT_WITH_LEGEND()
-LAYOUT_LEFT_RIGHT()
+
 
 title AIR System Context Diagram
 
@@ -55,7 +55,6 @@ Shows the major deployable units and their interactions.
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
 LAYOUT_WITH_LEGEND()
-LAYOUT_LEFT_RIGHT()
 
 skinparam linetype polyline
 
@@ -118,7 +117,7 @@ Shows the internal module structure of the monolith, aligned to the BIAN v14 bou
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
 LAYOUT_WITH_LEGEND()
-LAYOUT_LEFT_RIGHT()
+Queue
 
 skinparam linetype polyline
 
@@ -145,7 +144,7 @@ Container_Boundary(api, "AIR API (Modular Monolith)") {
     Component(productivityModule, "Advisor Productivity Module", "Spring Boot Module", "Bank-specific extension (no BIAN equivalent). Notebook, voice dictation, photo attachments, saved notes library, Bob interpretation requests")
 
     ' === Event Bus ===
-    Component(eventBus, "Event Bus", "Spring Application Events", "In-process event backbone for cross-module communication and agent orchestration")
+    Component(eventBus, "Event Bus", "Queue", "In-process event backbone for cross-module communication and agent orchestration")
 }
 
 ' === External Systems ===
@@ -203,7 +202,7 @@ Focused view of how Bob and Vera interact with the BIAN-aligned domain modules. 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
 LAYOUT_WITH_LEGEND()
-LAYOUT_LEFT_RIGHT()
+
 
 skinparam linetype polyline
 
@@ -228,7 +227,7 @@ Container_Boundary(agents, "AI Agent Layer") {
     Component(orchestrator, "Advisory Services Orchestrator", "Spring Service", "Tracks lifecycle state, triggers validations, ensures required steps are completed, enforces policy gates")
     Component(bob, "Bob — Advisor's Personal Assistant", "Spring AI Agent", "Application-layer agent: drafts proposals, reasons about queue, preps engagements, interprets notes, provides general advisory support. Cross-context read access.")
     Component(vera, "Vera — Compliance Agent", "Spring AI Agent + Rules Engine", "Domain service: validates proposals (sync), enforces suitability, flags risks. Deterministic, guardrail-focused.")
-    Component(eventBus, "Event Bus", "Spring Application Events", "Routes domain events to agent subscriptions")
+    Component(eventBus, "Event Bus", "Queue", "Routes domain events to agent subscriptions")
 }
 
 ' === Relationships: Domain Modules -> Event Bus ===
@@ -275,7 +274,7 @@ Shows the physical deployment topology on AWS. Unchanged from V1.0 — deploymen
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Deployment.puml
 
 LAYOUT_WITH_LEGEND()
-LAYOUT_LEFT_RIGHT()
+
 
 title AIR Deployment Diagram — AWS EKS
 
