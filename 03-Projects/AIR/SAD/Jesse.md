@@ -14,5 +14,14 @@ i.e. look at bank capabilities - see which domains map to existing capabilities
 
 run local plantuml server with plugins installed - point docs at it
 
+Vera - flesh out to include element of Vector database of compliance policies
+
+Agents - tokenization (anonymize customer data & PII) e.g. look up internal customer ID - pass that to LLM and substitute in UI
+
+Look at questions on module (bedrock on FRG tenant for now) - or all go through an IDNA endpoint.
+
+Orchestrator - Camunda 7 vs 8? Where to start? 
 
 ## Questions
+
+Where to document the tokenization process?
