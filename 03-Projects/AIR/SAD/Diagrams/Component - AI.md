@@ -24,15 +24,14 @@ Container_Boundary(modules, "Domain Modules") {
     Component(productivityModule, "Advisor Productivity Module", "Spring Boot Module", "Notebook, dictation, notes library")
 }
 
+Component_Ext(eventBus, "Event Bus", "Spring Application Events", "Routes domain events to agent subscriptions")
+
 ' === Agent Layer ===
 Container_Boundary(agents, "AI Agent Layer") {
-
-    
 
     Component(orchestrator, "Advice Lifecycle Orchestrator", "Spring Service", "Tracks lifecycle state, triggers validations, ensures required steps are completed, enforces policy gates")
     Component(bob, "Bob — Advisor's Personal Assistant", "Spring AI Agent", "Application-layer agent: drafts proposals, reasons about queue, preps engagements, interprets notes, provides general advisory support. Cross-context read access.")
     Component(vera, "Vera — Compliance Agent", "Spring AI Agent + Rules Engine", "Domain service: validates proposals (sync), enforces suitability, flags risks. Deterministic, guardrail-focused.")
-    Component(eventBus, "Event Bus", "Spring Application Events", "Routes domain events to agent subscriptions")
 }
 
 ' === Relationships: Domain Modules -> Event Bus ===

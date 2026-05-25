@@ -3,16 +3,14 @@
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
 LAYOUT_WITH_LEGEND()
-LAYOUT_LEFT_RIGHT()
+'LAYOUT_LEFT_RIGHT()
 
 skinparam linetype polyline
 
 title AIR API — Modular Monolith Component Diagram
 
 ' === Cross-cutting services ===
-    together {
         Component_Ext(featureToggles, "Feature Toggle Service", "Spring Boot + Config", "Controls feature flags to decouple deployments from business releases")
-    }
 
 ' === Event Bus ===
     Component_Ext(eventBus, "Event Bus", "Spring Application Events", "In-process event backbone for cross-module communication and agent orchestration")
@@ -36,11 +34,9 @@ Container_Boundary(api, "AIR API (Modular Monolith)") {
 }
 
 ' === External Systems ===
-together {
     ContainerDb(db, "PostgreSQL", "AWS RDS", "Each module owns its schema/tables via Liquibase")
     System_Ext(pep, "AdviceConsumer (via PEP)", "Enterprise API Gateway — lead sync & deal execution")
     System_Ext(clientSystems, "Client Data Sources", "Customer 360 data")
-}
 
 ' === Relationships: Modules -> Event Bus ===
 Rel(opportunityModule, eventBus, "Publishes LeadSignalDetected, LeadPromotedToQueue, LeadFeedbackRecorded, OpportunityReadyForEngagement, QueueRanked")
