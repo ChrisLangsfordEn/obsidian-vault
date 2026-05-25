@@ -20,7 +20,7 @@ LAYOUT_WITH_LEGEND()
 title AIR System Context Diagram
 
 ' === Tier 1: Actors (leftmost) ===
-Person(advisor, "Financial Advisor", "Uses AIR to manage leads, build proposals, and deliver advice to clients")
+Person(advisor, "Financial Advisor", "Uses AIR to manage leads, build proposals, and deliver advice to clients","")
 Person(supervisor, "Supervisor", "Reviews and approves advice cases, monitors advisor activity")
 Person(admin, "Administrator", "Manages system configuration, user access, and operations")
 
@@ -143,7 +143,7 @@ skinparam linetype polyline
 
 title AIR API — Modular Monolith Component Diagram
 
-Container_Boundary(api, "AIR API (Modular Monolith)") {
+Container_Boundary(api, "AIR API (Modular Monolith)","") {
 
     ' === Core Domain Modules ===
     Component(workbenchModule, "Customer Workbench Module", "Spring Boot Module", "Priority queue presentation, performance scorecard, aggregated read projection for Bob's context window, advisor day schedule")
