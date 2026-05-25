@@ -119,18 +119,12 @@ Shows the internal module structure of the monolith, aligned to the BIAN v14 bou
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
 LAYOUT_WITH_LEGEND()
-Queue
 
 skinparam linetype polyline
 
 title AIR API — Modular Monolith Component Diagram (BIAN-Aligned)
 
 Container_Boundary(api, "AIR API (Modular Monolith)") {
-
-    ' === Cross-cutting services ===
-    together {
-        Component(featureToggles, "Feature Toggle Service", "Spring Boot + Config", "Controls feature flags to decouple deployments from business releases")
-    }
 
     ' === Core Domain Modules (BIAN-Aligned) ===
     Component(workbenchModule, "Customer Workbench Module", "Spring Boot Module", "BIAN: Customer Workbench + Point of Service. Priority queue presentation, performance scorecard, aggregated read projection for Bob's context window, advisor day schedule")
@@ -145,9 +139,14 @@ Container_Boundary(api, "AIR API (Modular Monolith)") {
     Component(documentServicesModule, "Document Services & Customer Consent Module", "Spring Boot Module", "BIAN: Document Services + Correspondence + Customer Consent + Customer Agreement. Generates final artefacts (PDFs, RoA), tracks client acceptance, manages compliance artefact versioning")
     Component(productivityModule, "Advisor Productivity Module", "Spring Boot Module", "Bank-specific extension (no BIAN equivalent). Notebook, voice dictation, photo attachments, saved notes library, Bob interpretation requests")
 
-    ' === Event Bus ===
-    Component(eventBus, "Event Bus", "Queue", "In-process event backbone for cross-module communication and agent orchestration")
+    
 }
+
+' === Event Bus ===
+    Component_Ext(eventBus, "Event Bus", "In-process event backbone for cross-module communication and agent orchestration")
+
+' === Cross-cutting services ===
+    Component_Ext(featureToggles, "Feature Toggle Service", "Spring Boot + Config", "Controls feature flags to decouple deployments from business releases")
 
 ' === External Systems ===
 together {
