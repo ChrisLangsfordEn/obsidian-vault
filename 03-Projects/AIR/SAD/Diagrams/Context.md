@@ -4,6 +4,8 @@
 
 LAYOUT_WITH_LEGEND()
 
+skinparam linetype polyline
+
 title AIR System Context Diagram
 
 ' === Tier 1: Actors (leftmost) ===
