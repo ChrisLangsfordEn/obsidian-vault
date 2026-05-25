@@ -29,4 +29,7 @@ Where to document the tokenization process?
 
 Fix event bus labels
 Fix rules engine domains
+
+Consolidate domains* -- tell AI to use V14 of BIAN and try align with those domains
+
 Camunda labels for orchestrators?
