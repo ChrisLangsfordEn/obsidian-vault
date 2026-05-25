@@ -1,7 +1,7 @@
 # AIR (Advice & Intelligence Relationship) System Architecture Design — V2.0
 
-> **Version**: 2.0 — BIAN-Aligned Architecture
-> **Based on**: System Architecture Design V1.0 + AIR BIAN-Aligned DDD v3
+> **Version**: 2.0
+> **Based on**: System Architecture Design V1.0 + AIR DDD v3
 > **Date**: May 2026
 
 
@@ -112,7 +112,7 @@ Rel(gary, api, "Produces performance improvement suggestions", "In-process")
 
 ## Level 3: Component Diagram — AIR API (Modular Monolith)
 
-Shows the internal module structure of the monolith, aligned to the BIAN v14 bounded contexts.
+Shows the internal module structure of the monolith and its bounded contexts.
 
 ```plantuml
 @startuml AIR_API_Components
@@ -122,22 +122,22 @@ LAYOUT_WITH_LEGEND()
 
 skinparam linetype polyline
 
-title AIR API — Modular Monolith Component Diagram (BIAN-Aligned)
+title AIR API — Modular Monolith Component Diagram
 
 Container_Boundary(api, "AIR API (Modular Monolith)") {
 
-    ' === Core Domain Modules (BIAN-Aligned) ===
-    Component(workbenchModule, "Customer Workbench Module", "Spring Boot Module", "BIAN: Customer Workbench + Point of Service. Priority queue presentation, performance scorecard, aggregated read projection for Bob's context window, advisor day schedule")
-    Component(leadOpportunityModule, "Lead & Opportunity Management Module", "Spring Boot Module", "BIAN: Lead and Opportunity Management + Customer Behavior Insights + Product Matching. Manages leads, opportunities, scoring, pipeline classification, feedback, and the Next-Best-Action Prioritisation Service")
-    Component(customerInsightsModule, "Customer Relationship & Insights Module", "Spring Boot Module", "BIAN: CRM + Party Reference Data Directory + Customer Financial Insights. Read-only consolidated view of client profiles, financial position, money flows, risk profiles, FNA inputs")
-    Component(advisoryServicesModule, "Consumer Advisory Services Module", "Spring Boot Module/Camunda ", "BIAN: Consumer Advisory Services + Customer Case Management. Orchestrates advice case stages, owns the Opportunity Setup wizard, manages stage transitions and outcome anchors")
-    Component(proposalModule, "Advisory Proposal Construction Module", "Spring Boot Module", "BIAN: Consumer Advisory Services (proposal) + Suitability Checking + Investment Portfolio Planning. Builds and versions proposals and Record of Advice — sections, calculations, diffs, template progression")
-    Component(complianceModule, "Regulatory & Suitability Compliance Module", "Spring Boot Module", "BIAN: Regulatory Compliance + Guideline Compliance + Suitability Checking. Synchronous validation — suitability checks, mandate validation, risk profile mismatch, FICA gaps, disclosure requirements")
+    ' === Core Domain Modules ===
+    Component(workbenchModule, "Customer Workbench Module", "Spring Boot Module", "Priority queue presentation, performance scorecard, aggregated read projection for Bob's context window, advisor day schedule")
+    Component(leadOpportunityModule, "Lead & Opportunity Management Module", "Spring Boot Module", "Manages leads, opportunities, scoring, pipeline classification, feedback, and the Next-Best-Action Prioritisation Service")
+    Component(customerInsightsModule, "Customer Relationship & Insights Module", "Spring Boot Module", "Read-only consolidated view of client profiles, financial position, money flows, risk profiles, FNA inputs")
+    Component(advisoryServicesModule, "Consumer Advisory Services Module", "Spring Boot Module/Camunda ", "Orchestrates advice case stages, owns the Opportunity Setup wizard, manages stage transitions and outcome anchors")
+    Component(proposalModule, "Advisory Proposal Construction Module", "Spring Boot Module", "Builds and versions proposals and Record of Advice — sections, calculations, diffs, template progression")
+    Component(complianceModule, "Regulatory & Suitability Compliance Module", "Spring Boot Module", "Synchronous validation — suitability checks, mandate validation, risk profile mismatch, FICA gaps, disclosure requirements")
 
     ' === Supporting Domain Modules ===
-    Component(sessionDialogueModule, "Session Dialogue & Contact Module", "Spring Boot Module", "BIAN: Session Dialogue + Contact Handler + Servicing Event History. Captures structured client interactions — recordings, transcripts, summaries, objectives, consent")
-    Component(documentServicesModule, "Document Services & Customer Consent Module", "Spring Boot Module", "BIAN: Document Services + Correspondence + Customer Consent + Customer Agreement. Generates final artefacts (PDFs, RoA), tracks client acceptance, manages compliance artefact versioning")
-    Component(productivityModule, "Advisor Productivity Module", "Spring Boot Module", "Bank-specific extension (no BIAN equivalent). Notebook, voice dictation, photo attachments, saved notes library, Bob interpretation requests")
+    Component(sessionDialogueModule, "Session Dialogue & Contact Module", "Spring Boot Module", "Captures structured client interactions — recordings, transcripts, summaries, objectives, consent")
+    Component(documentServicesModule, "Document Services & Customer Consent Module", "Spring Boot Module", "Generates final artefacts (PDFs, RoA), tracks client acceptance, manages compliance artefact versioning")
+    Component(productivityModule, "Advisor Productivity Module", "Spring Boot Module", "Notebook, voice dictation, photo attachments, saved notes library, Bob interpretation requests")
 
     
 }
@@ -196,7 +196,7 @@ Rel(productivityModule, db, "Reads/writes", "JDBC")
 
 ## Level 3: Component Diagram — AI Agents & Orchestration
 
-Focused view of how Bob and Vera interact with the BIAN-aligned domain modules. Gary is deferred.
+Focused view of how Bob and Vera interact with the domain modules. Gary is deferred.
 
 ```plantuml
 @startuml AIR_AI_Agents
@@ -207,10 +207,10 @@ LAYOUT_WITH_LEGEND()
 
 skinparam linetype polyline
 
-title AI Agents & Orchestration — Component Diagram (BIAN-Aligned)
+title AI Agents & Orchestration — Component Diagram
 
 ' === Tier 4: Domain Modules (leftmost — they produce events and serve data) ===
-Container_Boundary(modules, "Domain Modules (BIAN-Aligned)") {
+Container_Boundary(modules, "Domain Modules") {
     Component(workbenchModule, "Customer Workbench Module", "Spring Boot Module", "Aggregated read projection, queue presentation")
     Component(leadOpportunityModule, "Lead & Opportunity Management Module", "Spring Boot Module", "Leads, scoring, prioritisation service")
     Component(proposalModule, "Advisory Proposal Construction Module", "Spring Boot Module", "Builds proposals and RoA")
@@ -228,8 +228,10 @@ Container_Boundary(agents, "AI Agent Layer") {
     Component(orchestrator, "Advisory Services Orchestrator", "Spring Service", "Tracks lifecycle state, triggers validations, ensures required steps are completed, enforces policy gates")
     Component(bob, "Bob — Advisor's Personal Assistant", "Spring AI Agent", "Application-layer agent: drafts proposals, reasons about queue, preps engagements, interprets notes, provides general advisory support. Cross-context read access.")
     Component(vera, "Vera — Compliance Agent", "Spring AI Agent + Rules Engine", "Domain service: validates proposals (sync), enforces suitability, flags risks. Deterministic, guardrail-focused.")
-    Component(eventBus, "Event Bus", "Queue", "Routes domain events to agent subscriptions")
+    
 }
+
+Component_Ext(eventBus, "Event Bus", "Queue", "Routes domain events to agent subscriptions")
 
 ' === Relationships: Domain Modules -> Event Bus ===
 Rel(leadOpportunityModule, eventBus, "LeadSignalDetected, LeadPromotedToQueue, QueueRanked, OpportunityReadyForEngagement")
@@ -313,7 +315,7 @@ Deployment_Node(aws, "AWS Cloud", "Amazon Web Services") {
             ' === Tier 4: Service Layer (vertically aligned namespaces) ===
             together {
                 Deployment_Node(ns_main, "Namespace: air-production", "Kubernetes Namespace") {
-                    Container(pod1, "AIR API Pod (replica 1)", "Java 21, Spring Boot 4.x", "Modular monolith with all BIAN-aligned bounded context modules + Bob & Vera agents")
+                    Container(pod1, "AIR API Pod (replica 1)", "Java 21, Spring Boot 4.x", "Modular monolith with all bounded context modules + Bob & Vera agents")
                     Container(pod2, "AIR API Pod (replica 2)", "Java 21, Spring Boot 4.x", "Horizontal scaling via HPA")
                 }
 
@@ -417,14 +419,14 @@ toggle -down-> dormant : Disabled
 
 ## Event Flow Diagram
 
-Shows the event-driven orchestration pattern aligned to the BIAN v14 bounded contexts.
+Shows the event-driven orchestration pattern across bounded contexts.
 
 ```plantuml
 @startuml AIR_Event_Flow
 
 skinparam linetype polyline
 
-title Event-Driven Agent Orchestration (BIAN-Aligned)
+title Event-Driven Agent Orchestration
 
 skinparam rectangle {
     BackgroundColor<<bob>> #C8E6C9
@@ -529,19 +531,19 @@ esa ..down..> bob : update\ncontext
 |-------|---------|---------|
 | C4 Level 1 | System Context | Shows AIR in its ecosystem with users and external systems |
 | C4 Level 2 | Container | Shows deployable units — SPA, API monolith, DB, Bob & Vera agents, event bus |
-| C4 Level 3 | Component (API) | Shows internal BIAN-aligned bounded context modules within the monolith (9 active contexts) |
+| C4 Level 3 | Component (API) | Shows internal bounded context modules within the monolith (9 active contexts) |
 | C4 Level 3 | Component (Agents) | Shows Bob's cross-context read/write access and Vera's sync validation role |
 | C4 Level 4 | Deployment | Shows AWS infrastructure topology — EKS, RDS, CloudFront, S3 |
 | Supplementary | CI/CD Pipeline | Shows trunk-based development and daily deployment flow |
-| Supplementary | Event Flow | Shows event-driven orchestration with BIAN-aligned event catalogue |
+| Supplementary | Event Flow | Shows event-driven orchestration with domain event catalogue |
 
 ---
 
 ## Key Architecture Characteristics
 
 - **Modular Monolith**: All bounded contexts deployed as a single unit for speed, with explicit module boundaries for future decomposition
-- **9 Active Bounded Contexts (BIAN-Aligned)**: Customer Workbench, Lead & Opportunity Management, Customer Relationship & Insights, Consumer Advisory Services, Advisory Proposal Construction, Regulatory & Suitability Compliance, Session Dialogue & Contact, Document Services & Customer Consent, Advisor Productivity
-- **BIAN v14 Naming Convention**: All contexts use canonical BIAN service domain names where strong alignment exists; bank-specific extensions are clearly documented
+- **9 Active Bounded Contexts**: Customer Workbench, Lead & Opportunity Management, Customer Relationship & Insights, Consumer Advisory Services, Advisory Proposal Construction, Regulatory & Suitability Compliance, Session Dialogue & Contact, Document Services & Customer Consent, Advisor Productivity
+- **Naming Convention**: All contexts use canonical service domain names where strong alignment to industry standards exists; bank-specific extensions are clearly documented
 - **Bob as Application-Layer Agent**: Cross-context personal assistant with read access to all modules and write access to Advisory Proposal Construction, Customer Workbench, and Lead & Opportunity Management
 - **Vera as Domain Service**: Synchronous compliance validation within the Regulatory & Suitability Compliance module; async monitoring deferred
 - **Gary Deferred**: Professional coach agent deferred to future phase (Servicing Activity Analysis context)
@@ -553,50 +555,6 @@ esa ..down..> bob : update\ncontext
 - **Feature Toggles**: Decouple code deployment from business release
 - **PR Environments**: Ephemeral namespaces with mock data for rapid feedback
 - **Module-Owned Data**: Each module manages its own schema via Liquibase
-
----
-
-## Alignment to BIAN-Aligned DDD v3
-
-| Bounded Context (BIAN-Aligned) | Module | BIAN Service Domain(s) | Classification | Notes |
-|---|---|---|---|---|
-| Customer Workbench | `workbenchModule` | Customer Workbench, Point of Service | Core | Owns queue presentation, scorecard, aggregated read projection |
-| Lead & Opportunity Management | `leadOpportunityModule` | Lead and Opportunity Management, Customer Behavior Insights, Product Matching | Core | Owns leads, scoring, pipeline, prioritisation service, feedback |
-| Customer Relationship & Insights | `customerInsightsModule` | CRM, Party Reference Data Directory, Customer Financial Insights | Core (read model) | Read-only projection of upstream client systems |
-| Consumer Advisory Services | `advisoryServicesModule` | Consumer Advisory Services, Customer Case Management | Core | Owns stages, transitions, setup wizard, outcome anchors |
-| Advisory Proposal Construction | `proposalModule` | Consumer Advisory Services (proposal), Suitability Checking, Investment Portfolio Planning | Core | Owns proposals, RoA, versioning, diffs |
-| Regulatory & Suitability Compliance | `complianceModule` | Regulatory Compliance, Guideline Compliance, Suitability Checking | Core | Sync validation only; async monitoring deferred |
-| Session Dialogue & Contact | `sessionDialogueModule` | Session Dialogue, Contact Handler, Servicing Event History | Supporting | Structured interaction capture linked to cases |
-| Document Services & Customer Consent | `documentServicesModule` | Document Services, Correspondence, Customer Consent, Customer Agreement | Supporting | Document generation, acceptance tracking, compliance artefacts |
-| Advisor Productivity | `productivityModule` | *(No BIAN equivalent — bank-specific extension)* | Supporting | Notebook, dictation, notes library |
-
-### Deferred Contexts (not represented in current architecture)
-
-| Context (BIAN-Aligned) | BIAN Service Domain(s) | Reason | Future Home |
-|---|---|---|---|
-| Party Authentication + Employee Access | Party Authentication, Employee Access | Consumed from bank IAM (Entra ID) | External dependency |
-| Compliance Reporting | Compliance Reporting, Regulatory Reporting | Vera's async mode not yet validated | Future module + event subscriptions |
-| Servicing Activity Analysis (Gary) | Servicing Activity Analysis, Employee Evaluation | Coach agent not in MVP scope | Future module + agent |
-| Deal Execution & Fulfilment | *(Absorbed into Consumer Advisory Services)* | Terminal lifecycle stage | Extract when complexity warrants |
-
----
-
-## BIAN Naming Convention
-
-All bounded contexts and their corresponding modules use the following naming hierarchy:
-
-1. **Primary BIAN service domain name** — used as the canonical label in API contracts, documentation, and integration specifications
-2. **AIR qualifier** (where needed for disambiguation) — appended in parentheses, e.g. "Consumer Advisory Services (Lifecycle)" vs "Consumer Advisory Services (Proposal)"
-3. **Bank-specific extension label** — used for contexts with no BIAN equivalent, clearly marked as extensions
-
-### Where AIR Extends Beyond BIAN v14
-
-| Extension | AIR Module | Rationale |
-|---|---|---|
-| AI Agent orchestration pattern | Bob, Vera, Gary | BIAN models capabilities, not cross-cutting agent constructs |
-| Next-Best-Action prioritisation | Lead & Opportunity Management (domain service) | BIAN handles lead progression but not ranking algorithms |
-| Personal productivity tools | Advisor Productivity | BIAN excludes internal employee productivity tooling |
-| Event-driven backbone | Cross-cutting | BIAN models capabilities, not the event infrastructure connecting them |
 
 ---
 
@@ -621,6 +579,44 @@ All bounded contexts and their corresponding modules use the following naming hi
 
 ---
 
-*Document version: 2.0 — BIAN-Aligned System Architecture*
-*Based on: System Architecture Design V1.0 + AIR BIAN-Aligned DDD v3*
+*Document version: 2.0 — System Architecture*
+*Based on: System Architecture Design V1.0 + AIR DDD v3*
 *Date: May 2026*
+
+---
+
+## Appendix A: BIAN v14 Service Domain Mapping
+
+The AIR platform's bounded contexts are aligned to the Banking Industry Architecture Network (BIAN) v14 reference model. The table below maps each AIR domain service to its corresponding BIAN service domain(s).
+
+### Active Bounded Contexts
+
+| AIR Domain Service | Module | BIAN v14 Service Domain(s) | Classification | Notes |
+|---|---|---|---|---|
+| Customer Workbench | `workbenchModule` | Customer Workbench, Point of Service | Core | Owns queue presentation, scorecard, aggregated read projection |
+| Lead & Opportunity Management | `leadOpportunityModule` | Lead and Opportunity Management, Customer Behavior Insights, Product Matching | Core | Owns leads, scoring, pipeline, prioritisation service, feedback |
+| Customer Relationship & Insights | `customerInsightsModule` | CRM, Party Reference Data Directory, Customer Financial Insights | Core (read model) | Read-only projection of upstream client systems |
+| Consumer Advisory Services | `advisoryServicesModule` | Consumer Advisory Services, Customer Case Management | Core | Owns stages, transitions, setup wizard, outcome anchors |
+| Advisory Proposal Construction | `proposalModule` | Consumer Advisory Services (proposal), Suitability Checking, Investment Portfolio Planning | Core | Owns proposals, RoA, versioning, diffs |
+| Regulatory & Suitability Compliance | `complianceModule` | Regulatory Compliance, Guideline Compliance, Suitability Checking | Core | Sync validation only; async monitoring deferred |
+| Session Dialogue & Contact | `sessionDialogueModule` | Session Dialogue, Contact Handler, Servicing Event History | Supporting | Structured interaction capture linked to cases |
+| Document Services & Customer Consent | `documentServicesModule` | Document Services, Correspondence, Customer Consent, Customer Agreement | Supporting | Document generation, acceptance tracking, compliance artefacts |
+| Advisor Productivity | `productivityModule` | *(No BIAN equivalent — bank-specific extension)* | Supporting | Notebook, dictation, notes library |
+
+### Deferred Contexts (not represented in current architecture)
+
+| AIR Domain Service | BIAN v14 Service Domain(s) | Reason | Future Home |
+|---|---|---|---|
+| Party Authentication + Employee Access | Party Authentication, Employee Access | Consumed from bank IAM (Entra ID) | External dependency |
+| Compliance Reporting | Compliance Reporting, Regulatory Reporting | Vera's async mode not yet validated | Future module + event subscriptions |
+| Servicing Activity Analysis (Gary) | Servicing Activity Analysis, Employee Evaluation | Coach agent not in MVP scope | Future module + agent |
+| Deal Execution & Fulfilment | *(Absorbed into Consumer Advisory Services)* | Terminal lifecycle stage | Extract when complexity warrants |
+
+### Where AIR Extends Beyond BIAN v14
+
+| Extension | AIR Module | Rationale |
+|---|---|---|
+| AI Agent orchestration pattern | Bob, Vera, Gary | BIAN models capabilities, not cross-cutting agent constructs |
+| Next-Best-Action prioritisation | Lead & Opportunity Management (domain service) | BIAN handles lead progression but not ranking algorithms |
+| Personal productivity tools | Advisor Productivity | BIAN excludes internal employee productivity tooling |
+| Event-driven backbone | Cross-cutting | BIAN models capabilities, not the event infrastructure connecting them |
