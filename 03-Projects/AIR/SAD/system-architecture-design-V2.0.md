@@ -77,7 +77,7 @@ System_Boundary(airSystem, "AIR Platform") {
     Container(vera, "Vera Agent", "Spring AI + Rules Engine", "Compliance agent — validates proposals (sync), enforces suitability checks, flags risks")
 
     ' === Tier 5: Data Layer (rightmost) ===
-    Container(eventBus, "Internal Event Bus", "Spring Application Events", "In-process event backbone for cross-module communication, agent orchestration, and workbench projection updates")
+    Container(eventBus, "Event Bus", "Queue", "In-process event backbone for cross-module communication, agent orchestration, and workbench projection updates")
     ContainerDb(db, "PostgreSQL Database", "AWS RDS PostgreSQL 15+", "Stores leads, advice cases, proposals, compliance artefacts, engagement records, notebook, audit trail")
 }
 
