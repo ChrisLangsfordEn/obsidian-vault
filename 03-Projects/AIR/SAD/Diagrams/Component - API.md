@@ -9,12 +9,15 @@ skinparam linetype polyline
 
 title AIR API — Modular Monolith Component Diagram
 
-Container_Boundary(api, "AIR API (Modular Monolith)") {
-
-    ' === Cross-cutting services ===
+' === Cross-cutting services ===
     together {
-        Component(featureToggles, "Feature Toggle Service", "Spring Boot + Config", "Controls feature flags to decouple deployments from business releases")
+        Component_Ext(featureToggles, "Feature Toggle Service", "Spring Boot + Config", "Controls feature flags to decouple deployments from business releases")
     }
+
+' === Event Bus ===
+    Component_Ext(eventBus, "Event Bus", "Spring Application Events", "In-process event backbone for cross-module communication and agent orchestration")
+
+Container_Boundary(api, "AIR API (Modular Monolith)") {
 
     ' === Core Domain Modules ===
     Component(workbenchModule, "Advisor Workbench Module", "Spring Boot Module", "Priority queue presentation, performance scorecard, aggregated read projection for Bob's context window, advisor day schedule")
@@ -29,8 +32,7 @@ Container_Boundary(api, "AIR API (Modular Monolith)") {
     Component(documentModule, "Document & Acceptance Module", "Spring Boot Module", "Generates final artefacts (PDFs, RoA), tracks client acceptance, manages compliance artefact versioning")
     Component(productivityModule, "Advisor Productivity Module", "Spring Boot Module", "Notebook, voice dictation, photo attachments, saved notes library, Bob interpretation requests")
 
-    ' === Event Bus ===
-    Component(eventBus, "Event Bus", "Spring Application Events", "In-process event backbone for cross-module communication and agent orchestration")
+   
 }
 
 ' === External Systems ===
