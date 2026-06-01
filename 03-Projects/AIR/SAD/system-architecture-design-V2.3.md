@@ -659,35 +659,44 @@ A cross-cutting audit service captures all significant user interactions across 
 
 **Architecture:**
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│  AIR API (Modular Monolith)                                         │
-│                                                                     │
-│  ┌─────────────────────────────────────────────────────────────┐   │
-│  │  Spring AOP Audit Interceptor (cross-cutting)               │   │
-│  │  - Intercepts controller/service method invocations         │   │
-│  │  - Extracts actor (from SecurityContext/JWT)                │   │
-│  │  - Extracts action, resource, outcome                       │   │
-│  │  - Publishes AuditEvent to internal queue                   │   │
-│  └─────────────────────────────────────────────────────────────┘   │
-│                          │                                          │
-│                          ▼                                          │
-│  ┌─────────────────────────────────────────────────────────────┐   │
-│  │  Audit Event Queue (async write path)                       │   │
-│  │  - Buffers audit events for async persistence               │   │
-│  │  - Critical actions (compliance overrides) use sync path    │   │
-│  └─────────────────────────────────────────────────────────────┘   │
-│                          │                                          │
-│                          ▼                                          │
-│  ┌─────────────────────────────────────────────────────────────┐   │
-│  │  Audit Schema (PostgreSQL — dedicated schema)               │   │
-│  │  - Append-only, immutable records                           │   │
-│  │  - 7-year retention (FAIS compliance)                       │   │
-│  │  - Hot: 12 months in PostgreSQL                             │   │
-│  │  - Cold: Archived to S3 (Parquet format)                    │   │
-│  └─────────────────────────────────────────────────────────────┘   │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
+```plantuml
+@startuml AIR_Audit_Trail
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Application Interaction Audit Trail — Cross-Cutting Architecture
+
+Container_Boundary(api, "AIR API (Modular Monolith)") {
+
+    Component(controllers, "Domain Controllers & Services", "Spring Boot", "All bounded context endpoints — Customer Workbench, Lead & Opportunity, Consumer Advisory Services, Proposal Construction, Compliance, Session Dialogue, Document Services")
+
+    Component(aopInterceptor, "Spring AOP Audit Interceptor", "Spring AOP / @Around", "Cross-cutting aspect — intercepts controller/service invocations, extracts actor (from SecurityContext/JWT), action, resource, and outcome. Publishes structured AuditEvent.")
+
+    Component(auditQueue, "Audit Event Queue", "Spring ApplicationEventPublisher", "Async write path — buffers audit events for non-blocking persistence. Critical compliance actions (e.g. override acknowledgement) bypass queue for synchronous persistence.")
+
+    Component(auditWriter, "Audit Writer Service", "Spring @Async", "Consumes audit events from queue, persists to dedicated audit schema. Handles batching and retry.")
+}
+
+Container_Boundary(bffLayer, "BFF Layer") {
+    Component(bff, "Backend for Frontend", "Spring Boot", "Enriches requests with correlationId and session context before forwarding to API layer")
+}
+
+ContainerDb(auditDb, "Audit Schema", "PostgreSQL (dedicated schema)", "Append-only, immutable audit records. Hot storage: 12 months. Indexes on actorId, clientId, timestamp, action.")
+ContainerDb(s3Archive, "S3 Archive", "AWS S3 (Parquet)", "Cold storage — audit records older than 12 months. 7-year retention (FAIS compliance).")
+
+Component_Ext(reportingViews, "Audit Reporting Views", "Supervisor / Compliance UI", "Dedicated views for compliance officers and supervisors to query audit data")
+
+' === Relationships ===
+Rel(bff, controllers, "Forwards requests with correlationId", "HTTP/JSON")
+Rel(controllers, aopInterceptor, "Intercepted by aspect", "AOP @Around")
+Rel(aopInterceptor, auditQueue, "Publishes AuditEvent", "Async (default) / Sync (critical)")
+Rel(auditQueue, auditWriter, "Delivers events", "Spring @EventListener")
+Rel(auditWriter, auditDb, "Persists audit records", "JDBC (append-only)")
+Rel(auditDb, s3Archive, "Archives records > 12 months", "Scheduled ETL")
+Rel(reportingViews, auditDb, "Queries audit trail", "JDBC (read-only)")
+
+@enduml
 ```
 
 **Audit Event Schema:**
@@ -717,40 +726,42 @@ The Angular SPA supports runtime brand skinning based on the authenticated user'
 
 **Architecture:**
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│  Angular SPA                                                        │
-│                                                                     │
-│  ┌──────────────┐    ┌──────────────────────────────────────────┐  │
-│  │ MSAL Auth    │───▶│ Theme Resolver Service                    │  │
-│  │ (login)      │    │ - Reads tenant_brand claim from JWT       │  │
-│  └──────────────┘    │ - Loads theme config (JSON)               │  │
-│                      │ - Applies CSS custom properties to :root  │  │
-│                      └──────────────────────────────────────────┘  │
-│                                 │                                   │
-│                      ┌──────────▼──────────────────────────────┐   │
-│                      │ Theme Configurations                     │   │
-│                      │ /assets/themes/{tenantId}/theme.json     │   │
-│                      │                                          │   │
-│                      │ fnb-internal:                            │   │
-│                      │   primaryColor: #003366                  │   │
-│                      │   accentColor: #FF6600                   │   │
-│                      │   logoUrl: /assets/themes/fnb/logo.svg   │   │
-│                      │                                          │   │
-│                      │ ifa-partner-a:                           │   │
-│                      │   primaryColor: #1A5276                  │   │
-│                      │   accentColor: #27AE60                   │   │
-│                      │   logoUrl: /assets/themes/partner-a/...  │   │
-│                      └─────────────────────────────────────────┘   │
-│                                 │                                   │
-│                      ┌──────────▼──────────────────────────────┐   │
-│                      │ Angular Material M3 Design Tokens        │   │
-│                      │ CSS Custom Properties applied at :root   │   │
-│                      │ --air-primary, --air-accent, --air-logo  │   │
-│                      │ All components reference these tokens    │   │
-│                      └─────────────────────────────────────────┘   │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
+```plantuml
+@startuml AIR_UI_Theming
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Tenant-Aware UI Theming — Runtime Brand Skinning
+
+Container_Boundary(spa, "Angular SPA (Single Build Artefact)") {
+
+    Component(msal, "MSAL Authentication", "Angular / @azure/msal-angular", "Authenticates user via Entra ID OAuth2/PKCE. JWT contains tenant_brand claim identifying user's brand affiliation.")
+
+    Component(themeResolver, "Theme Resolver Service", "Angular Injectable", "Reads tenant_brand claim from JWT after login. Loads corresponding theme configuration. Applies CSS custom properties to document :root element.")
+
+    Component(themeStore, "Theme Configuration Store", "Static JSON assets", "Per-tenant theme definitions stored at /assets/themes/{tenantId}/theme.json. Contains primaryColor, accentColor, logoUrl, faviconUrl, fontFamily, borderRadius, terminology overrides.")
+
+    Component(designTokens, "Angular Material M3 Design Tokens", "CSS Custom Properties", "All UI components reference CSS custom properties (--air-primary, --air-accent, --air-logo, --air-font). Angular Material palette sourced from these tokens for consistent component styling.")
+
+    Component(featureGate, "Tenant Feature Gate", "Angular Directive / Guard", "Combines feature toggle state (ADR-014) with tenant context to show/hide features per brand. Internal-only tools hidden for IFA users.")
+
+    Component(i18nLabels, "Terminology / Label Service", "Angular Injectable", "Provides tenant-specific label overrides (e.g. 'advisor' → 'consultant' for IFA partners). Components consume labels via service rather than hardcoded strings.")
+}
+
+System_Ext(entraId, "Microsoft Entra ID", "Issues JWT with tenant_brand claim based on user group membership or app role")
+System_Ext(cdn, "CloudFront / S3", "Serves static theme assets (logos, fonts) from /assets/themes/{tenantId}/")
+
+' === Relationships ===
+Rel(msal, entraId, "OAuth2/PKCE authentication", "HTTPS")
+Rel(msal, themeResolver, "Passes JWT with tenant_brand claim", "Post-login callback")
+Rel(themeResolver, themeStore, "Loads theme JSON for resolved tenant", "Static import")
+Rel(themeResolver, designTokens, "Applies CSS custom properties to :root", "DOM manipulation")
+Rel(themeStore, cdn, "Theme assets served from CDN", "HTTPS")
+Rel(designTokens, featureGate, "Tenant context available for feature gating")
+Rel(designTokens, i18nLabels, "Tenant context drives label resolution")
+
+@enduml
 ```
 
 **Key Design Decisions:**
