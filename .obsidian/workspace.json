@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02-Ongoing/Integrated Advice (CRSA).md",
+                "file": "03-Projects/Kiro/generate-steering.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Integrated Advice (CRSA)"
+              "title": "generate-steering"
             }
           }
         ]
@@ -54,7 +54,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "camunda mcp",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -227,6 +227,8 @@
   },
   "active": "fc928a09419e7ba7",
   "lastOpenFiles": [
+    "02-Ongoing/Integrated Advice (CRSA).md",
+    "03-Projects/Kiro/generate-steering.md",
     "03-Projects/Kiro/OCEP MCP Server Notes.md",
     "03-Projects/Kiro/Jesse Session.md",
     "03-Projects/Kiro/Design Ideas.md",
@@ -255,8 +257,6 @@
     "01-Daily-Notes/2026/Jun",
     "03-Projects/AIR/system-architecture-design-V2.2.md",
     "system-architecture-design-V2.2.pdf",
-    "01-Daily-Notes/2026/May/2026-05-26-Tue.md",
-    "03-Projects/AIR/SAD/system-architecture-design-V2.1.md",
     "system-architecture-design-V2.1.pdf",
     "system-architecture-design-V2.0.pdf",
     "System Architecture Design V1.0.pdf",
