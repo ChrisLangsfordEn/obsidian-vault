@@ -18,12 +18,12 @@ inside the Console with no Teams breakout tab.
 
 This memo recommends a **phased technology selection** rather than a single big-bang build:
 
-| Phase | Outcome | Primary technology | Effort / risk |
-|-------|---------|--------------------|---------------|
-| **P1 — MVP** | Launch Teams call, native transcription, store & view transcript | **Microsoft Graph API** (online meetings, change notifications, transcripts) | Low |
-| **P2 — Enhancement 1** | Higher-quality transcription | **Azure AI Speech** (batch first, then streaming) | Medium |
-| **P3 — Enhancement 2** | Bob extracts data & prepopulates proposal | **Azure OpenAI via Navi/D2 (Bob)** + structured extraction | Medium |
-| **P4 — Perfect state** | Embedded real-time call + live proposal + Next Best Actions | **Azure Communication Services (ACS)** + Graph interop + Speech + Bob | High |
+| Phase                  | Outcome                                                          | Primary technology                                                           | Effort / risk |
+| ---------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------- |
+| **P1 — MVP**           | Launch Teams call, native transcription, store & view transcript | **Microsoft Graph API** (online meetings, change notifications, transcripts) | Low           |
+| **P2 — Enhancement 1** | Higher-quality transcription                                     | **Azure AI Speech** (batch first, then streaming)                            | Medium        |
+| **P3 — Enhancement 2** | Bob extracts data & prepopulates proposal                        | **Azure OpenAI via Navi/D2 (Bob)** + structured extraction                   | Medium        |
+| **P4 — Perfect state** | Embedded real-time call + live proposal + Next Best Actions      | **Azure Communication Services (ACS)** + Graph interop + Speech + Bob        | High          |
 
 The through-line: **Graph API owns the meeting lifecycle and stored artefacts; ACS owns
 embedded, programmable, real-time calling; Azure Speech owns audio-to-text; Bob owns
