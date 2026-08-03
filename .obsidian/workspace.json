@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Daily-Notes/2026/Jul/2026-07-27-Mon.md",
+                "file": "01-Daily-Notes/2026/Aug/2026-08-03-Mon.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-07-27-Mon"
+              "title": "2026-08-03-Mon"
             }
           }
         ]
@@ -42,7 +42,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -227,8 +229,10 @@
   },
   "active": "84aa5050c01ac6f5",
   "lastOpenFiles": [
-    "01-Daily-Notes/2026/Jul/2026-07-23-Thu.md",
     "01-Daily-Notes/2026/Jul/2026-07-27-Mon.md",
+    "01-Daily-Notes/2026/Aug/2026-08-03-Mon.md",
+    "01-Daily-Notes/2026/Aug",
+    "01-Daily-Notes/2026/Jul/2026-07-23-Thu.md",
     "03-Projects/AIR/teams-call-transcription-technology-selection-memo.md",
     "teams-call-transcription-technology-selection-memo.pdf",
     "01-Daily-Notes/2026/Jul/2026-07-22-Wed.md",
@@ -255,7 +259,6 @@
     "02-Ongoing/Integrated Advice (CRSA).md",
     "03-Projects/Kiro/OCEP MCP Server Notes.md",
     "03-Projects/Kiro/Jesse Session.md",
-    "03-Projects/Kiro/Design Ideas.md",
     "99-Meta/Attachments/Pasted image 20260603150302.png",
     "system-architecture-design-V2.3.pdf",
     "01-Daily-Notes/2026/Jun",
@@ -263,7 +266,6 @@
     "system-architecture-design-V2.1.pdf",
     "system-architecture-design-V2.0.pdf",
     "System Architecture Design V1.0.pdf",
-    "System Architecture Design V1.1.pdf",
     "99-Meta/Attachments/Pasted image 20260521074044.png",
     "99-Meta/Attachments/Pasted image 20260513103025.png",
     "99-Meta/Attachments/Pasted image 20260309130423.png",
